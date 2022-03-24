@@ -1,0 +1,2625 @@
+package com.example.customerui;
+
+import com.example.customerui.datamodel.CustomerDetails;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
+public class SQL {
+    //*****************Buttons**********************//
+    @FXML
+    private Button fetch;
+
+
+    @FXML
+    private Button validate;
+    @FXML
+    private Button close;
+    @FXML
+    private Button delete;
+    @FXML
+    private Button submit;
+
+    @FXML
+    private Button gsubmit;
+    ///*************Input Fields********************//
+
+    @FXML
+    private TextField firstnamefield;
+    @FXML
+    private TextField lastnamefield;
+    @FXML
+    private TextField cityfield;
+    @FXML
+    private TextField talukafield;
+    @FXML
+    private ComboBox<String> statefield;
+    @FXML
+    private ComboBox<String> countryfield;
+    @FXML
+    private TextField pincodefield;
+    @FXML
+    private TextField phonenumberfield;
+    @FXML
+    private ComboBox<String> countrycodefield;
+    @FXML
+    private TextField line1field;
+    @FXML
+    private TextField line2field;
+    @FXML
+    private TextField line3field;
+    @FXML
+    private TextField distfield;
+    @FXML
+    private TextField emailfield;
+    @FXML
+    private TextField editoption;
+
+
+    @FXML
+    private TextArea descriptionfield;
+
+    @FXML
+    private TextArea area;
+    @FXML
+    private TextField loanamountfield;
+    @FXML
+    private TextField ratefield;
+
+    @FXML
+    private DatePicker dateofloans;
+
+    @FXML
+    private TextField collerralVfield;
+    @FXML
+    private ComboBox item;
+    @FXML
+    private TextField statefield1;
+    @FXML
+    private TextField countryfield1;
+    @FXML
+    private TextField countrycodefield1;
+
+
+    @FXML
+    private TextField closefield;
+    @FXML
+    private TextField editoption1;
+    @FXML
+    private TextField startd;
+    @FXML
+    private DatePicker endd;
+    @FXML
+    private TextField loanAmfield;
+    @FXML
+    private TextField ratefield1;
+
+    @FXML
+    private Button fetchclosed;
+    @FXML
+    private Button closesubmit;
+    @FXML
+    private Button calcutebutton;
+    @FXML
+    private TextArea customerclosearea;
+    @FXML
+    private TextField closefielddelete;
+    @FXML
+    private TextField inquirystatus;
+
+
+    //****************************** Customer database connection***************************//
+
+    public Connection connect() {
+        String url = "jdbc:sqlite:C:/Users/khali/Desktop/1/CUSNEW.db";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection;
+    }
+//***************************Loan database connection*******************//
+    public Connection grantconnection() {
+        String s = "jdbc:sqlite:C:/Users/khali/Desktop/1/Grantloan2.db";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(s);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection;
+    }
+    //*************************loan database**************************//
+    private Connection connect12() {
+        String url = "jdbc:sqlite:C:/Users/khali/Desktop/database2/g2.db";
+        Connection connection2 = null;
+        try {
+            connection2 = DriverManager.getConnection(url);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection2;
+    }
+//*******************payment database*********************************//
+    private Connection connect3() {
+        String url = "jdbc:sqlite:C:/Users/khali/Desktop/1/payment1.db";
+        Connection connection3 = null;
+        try {
+            connection3 = DriverManager.getConnection(url);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection3;
+    }
+
+    //***************************SQL OPERATION************************//
+    //*************************INSERT CUSTOMER DEATAILS***********************//
+    public void insert(CustomerDetails customerDetails, String String, String string) {
+        DialogController dialogController = new DialogController();
+        String sql = "INSERT INTO CUSTOMERDETAILS(REGNO,FirstName,LastName,Line1,Line2,Line3,city,taluka,dist,state,country" +
+                ",pincode,phonenumber,countrycode ,email,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try (Connection connection = this.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, dialogController.registration());
+            preparedStatement.setString(2, customerDetails.getFirstName());
+            preparedStatement.setString(3, customerDetails.getLastName());
+            preparedStatement.setString(4, customerDetails.getLine1());
+            preparedStatement.setString(5, customerDetails.getLine2());
+            preparedStatement.setString(6, customerDetails.getLine3());
+            preparedStatement.setString(7, customerDetails.getCity());
+            preparedStatement.setString(8, customerDetails.getTaluka());
+            preparedStatement.setString(9, customerDetails.getDist());
+            preparedStatement.setString(10, customerDetails.getState());
+            preparedStatement.setString(11, customerDetails.getCountry());
+            preparedStatement.setString(12, customerDetails.getPincode());
+            preparedStatement.setString(13, customerDetails.getPhonenumber());
+            preparedStatement.setString(14, customerDetails.getCountrycode());
+            preparedStatement.setString(15, customerDetails.getEmail());
+            preparedStatement.setString(16, "Active");
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+//************************INSERT LOAN DETAILS*****************************//
+    public void insertingranttable() {
+
+        String s = "INSERT INTO GRANTLOAN(LoanNumber,LoanAmount,Rate,startDate,ColleteralValue,Items," +
+                "Description,REGNO,partner1Fund,partner2Fund,endDate,totalInterst," +
+                "partner1Interst,partner2Interst,closed) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try (Connection connection = this.grantconnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(s)) {
+
+            showAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Saved Sucessfully " +
+                    "and Loan number is->" + grantNumber());
+            preparedStatement.setString(1, grantNumber());
+            preparedStatement.setString(3, ratefield.getText());
+            preparedStatement.setDouble(2, Double.parseDouble(loanamountfield.getText()));
+            preparedStatement.setString(4, dateofloans.getValue().getDayOfMonth() + "/" + dateofloans.getValue().getMonthValue()
+                    + "/" + dateofloans.getValue().getYear());
+            preparedStatement.setDouble(5, Double.parseDouble(collerralVfield.getText()));
+            preparedStatement.setString(6, String.valueOf(item.getValue()));
+            preparedStatement.setString(7, descriptionfield.getText());
+            preparedStatement.setString(8, editoption1.getText());
+            preparedStatement.setString(9, part1.getText());
+            preparedStatement.setString(10, part2.getText());
+            preparedStatement.setString(15, "NO");
+            preparedStatement.executeUpdate();
+            gsubmit.setDisable(true);
+            resetGrantLoan();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    //************************DELETE CUSTOMER OPERATION**********************//
+    //*********************FETCH DELETE DATA****************************//
+    public void showDeleteFetch1() {
+        if(editoption.getText().isEmpty()){
+            showAlert(Alert.AlertType.ERROR, "Error", "Customer Id field is empty");
+        }else {
+            ResultSet resultSet = null;
+            Statement statement = null;
+            String mql = "Select * From CUSTOMERDETAILS WHERE REGNO=" + "'" + editoption.getText() + "'";
+            try (Connection connection = this.connect()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(mql);
+                resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()==false){
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect customer Id");
+                }else {
+                    System.out.println(resultSet.getString(2));
+                    firstnamefield.setText(resultSet.getString(2));
+                    lastnamefield.setText(resultSet.getString(3));
+                    line1field.setText(resultSet.getString(4));
+                    line2field.setText(resultSet.getString(5));
+                    line3field.setText(resultSet.getString(6));
+                    cityfield.setText(resultSet.getString(7));
+                    talukafield.setText(resultSet.getString(8));
+                    distfield.setText(resultSet.getString(9));
+                    pincodefield.setText(resultSet.getString(12));
+                    phonenumberfield.setText(resultSet.getString(13));
+                    emailfield.setText(resultSet.getString(15));
+                    statefield1.setText(resultSet.getString("state"));
+                    countrycodefield1.setText(resultSet.getString("countrycode"));
+                    countryfield1.setText(resultSet.getString("country"));
+                    editoption.setDisable(true);
+                    delete.setDisable(false);
+                }
+            } catch (SQLException e) {
+
+
+            }
+        }
+    }
+    public void delete() {
+        String hg = "Select * from GRANTLOAN WHERE REGNO=" + "'" + editoption.getText() + "'";
+        try (Connection connection1 = this.grantconnection();
+             PreparedStatement preparedStatement1 = connection1.prepareStatement(hg)) {
+            ResultSet resultSet1 = preparedStatement1.executeQuery();
+            if (resultSet1.next() == false) {
+                String sql = "UPDATE CUSTOMERDETAILS SET status='Inactive' WHERE REGNO=" + "'" + editoption.getText() + "'";
+                try (Connection connection = this.connect();
+                     PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    preparedStatement.executeUpdate();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Deleted Sucessfully");
+                    delete.setDisable(true);
+                    fetch.setDisable(true);
+                    System.out.println("done");
+                } catch (SQLException e) {
+
+                    showAlert(Alert.AlertType.ERROR, "Error", "Active Loans ");
+
+                }
+            } else if (resultSet1.next()) {
+                String s1 = resultSet1.getString("closed");
+
+                System.out.println(s1);
+                if (s1.equals("YES") || (s1.equals("Inactive"))) {
+                    String sql = "UPDATE CUSTOMERDETAILS SET status='Inactive' WHERE REGNO=" + "'" + editoption.getText() + "'";
+                    try (Connection connection = this.connect();
+                         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        preparedStatement.executeUpdate();
+                        showAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Deleted sucessfully");
+                        //showAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Deleted Sucessfully");
+                        delete.setDisable(true);
+                        fetch.setDisable(true);
+                        System.out.println("done");
+
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                        showAlert(Alert.AlertType.ERROR, "Error", "Active Loans ");
+
+                    }
+                }
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Active Loans ");
+            }
+        } catch (SQLException e) {
+
+        }
+    }
+//*******************************Customer Inquiry**********************//
+
+//************************************Fetch data for inquiry***************//
+
+
+    public void showInquiryFetch() {
+        if(editoption.getText().isEmpty()){
+            showAlert(Alert.AlertType.ERROR, "Error", "Customer Id field is empty");
+
+        }else {
+            ResultSet resultSet=null;
+            Statement statement = null;
+            String mql = "Select * From CUSTOMERDETAILS WHERE REGNO=" + "'" + editoption.getText() + "'";
+            try (Connection connection = this.connect()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(mql);
+                resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()==false){
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect customer Id");
+                }else {
+                    System.out.println(resultSet.getString(2));
+                    firstnamefield.setText(resultSet.getString(2));
+                    lastnamefield.setText(resultSet.getString(3));
+                    line1field.setText(resultSet.getString(4));
+                    line2field.setText(resultSet.getString(5));
+                    line3field.setText(resultSet.getString(6));
+                    cityfield.setText(resultSet.getString(7));
+                    talukafield.setText(resultSet.getString(8));
+                    distfield.setText(resultSet.getString(9));
+                    pincodefield.setText(resultSet.getString(12));
+                    phonenumberfield.setText(resultSet.getString(13));
+                    emailfield.setText(resultSet.getString(15));
+                    statefield1.setText(resultSet.getString("state"));
+                    countrycodefield1.setText(resultSet.getString("countrycode"));
+                    countryfield1.setText(resultSet.getString("country"));
+                    inquirystatus.setText(resultSet.getString("status"));
+                    editoption.setDisable(true);
+                }
+            } catch (SQLException e) {
+
+
+            }
+        }
+    }
+    //*******************************Reset customer inquiry***********************//
+    public void customerInquiryReset() {
+        editoption.clear();
+        firstnamefield.clear();
+        lastnamefield.clear();
+        line1field.clear();
+        line2field.clear();
+        line3field.clear();
+        talukafield.clear();
+        cityfield.clear();
+        distfield.clear();
+        pincodefield.clear();
+        phonenumberfield.clear();
+        emailfield.clear();
+        editoption.setDisable(false);
+        firstnamefield.setDisable(true);
+        lastnamefield.setDisable(true);
+        line1field.setDisable(true);
+        line2field.setDisable(true);
+        line3field.setDisable(true);
+        cityfield.setDisable(true);
+        talukafield.setDisable(true);
+        distfield.setDisable(true);
+        statefield1.setDisable(true);
+        countryfield1.setDisable(true);
+        pincodefield.setDisable(true);
+        phonenumberfield.setDisable(true);
+        countrycodefield1.setDisable(true);
+    }
+
+
+
+    //********************************EDIT  CUSTOMER OPERATION***************************//
+    //******************fetch data for edit***********************************//
+    public void editCustomerInfo() throws SQLException {
+        if (editoption.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Customer Id field is empty ");
+
+        } else {
+            ResultSet resultSet = null;
+            Statement statement = null;
+            String mql = "Select * From CUSTOMERDETAILS WHERE REGNO=" + "'" + editoption.getText() + "'";
+            try (Connection connection = this.connect()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(mql);
+                resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()==false){
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect customer Id ");
+                }else {
+                    String sb = resultSet.getString("status");
+                    if (sb.equals("Active")) {
+                        validate.setDisable(false);
+                        System.out.println(resultSet.getString(2));
+                        firstnamefield.setText(resultSet.getString(2));
+                        lastnamefield.setText(resultSet.getString(3));
+                        line1field.setText(resultSet.getString(4));
+                        line2field.setText(resultSet.getString(5));
+                        line3field.setText(resultSet.getString(6));
+                        cityfield.setText(resultSet.getString(7));
+                        talukafield.setText(resultSet.getString(8));
+                        distfield.setText(resultSet.getString(9));
+                        //statefield.set(resultSet.getString(10));
+                        pincodefield.setText(resultSet.getString(12));
+                        phonenumberfield.setText(resultSet.getString(13));
+                        emailfield.setText(resultSet.getString(15));
+                        editoption.setDisable(true);
+                        firstnamefield.setDisable(false);
+                        lastnamefield.setDisable(false);
+                        line1field.setDisable(false);
+                        line2field.setDisable(false);
+                        line3field.setDisable(false);
+                        cityfield.setDisable(false);
+                        talukafield.setDisable(false);
+                        distfield.setDisable(false);
+                        statefield.setDisable(false);
+                        countryfield.setDisable(false);
+                        pincodefield.setDisable(false);
+                        phonenumberfield.setDisable(false);
+                        countrycodefield.setDisable(false);
+                        emailfield.setDisable(false);
+                        System.out.println("executed");
+                        validate.setDisable(false);
+
+                    } else {
+                        validate.setDisable(false);
+                        showAlert(Alert.AlertType.INFORMATION, "Information", "Customer ID is Inactive/Deleted." +
+                                "  Editing of this record makes Customer Active");
+
+                        firstnamefield.setText(resultSet.getString(2));
+                        lastnamefield.setText(resultSet.getString(3));
+                        line1field.setText(resultSet.getString(4));
+                        line2field.setText(resultSet.getString(5));
+                        line3field.setText(resultSet.getString(6));
+                        cityfield.setText(resultSet.getString(7));
+                        talukafield.setText(resultSet.getString(8));
+                        distfield.setText(resultSet.getString(9));
+                        //statefield.set(resultSet.getString(10));
+                        pincodefield.setText(resultSet.getString(12));
+                        phonenumberfield.setText(resultSet.getString(13));
+                        emailfield.setText(resultSet.getString(15));
+                        editoption.setDisable(true);
+                        firstnamefield.setDisable(false);
+                        lastnamefield.setDisable(false);
+                        line1field.setDisable(false);
+                        line2field.setDisable(false);
+                        line3field.setDisable(false);
+                        cityfield.setDisable(false);
+                        talukafield.setDisable(false);
+                        distfield.setDisable(false);
+                        statefield.setDisable(false);
+                        countryfield.setDisable(false);
+                        pincodefield.setDisable(false);
+                        phonenumberfield.setDisable(false);
+                        countrycodefield.setDisable(false);
+                        emailfield.setDisable(false);
+                        validate.setDisable(false);
+                    }
+                }
+            } catch (SQLException e) {
+            } finally{
+                    if (resultSet != null) {
+                        resultSet.close();
+                    }
+                    if (statement != null) {
+                        statement.close();
+                    }
+
+            }
+        }
+    }
+//********************Edit customer information submit*********************//
+    public void editInfoSubmit() {
+        String updatestring = "UPDATE CUSTOMERDETAILS SET " + "FirstName=" + "'" + firstnamefield.getText() + "'" + "," +
+                "LastName=" + "'" + lastnamefield.getText() + "'" + "," +
+                "Line1=" + "'" + line1field.getText() + "'" + "," + "Line2=" + "'" + line2field.getText() + "'" + "," +
+                "Line3=" + "'" + line3field.getText() + "'" + "," + "city=" + "'" + cityfield.getText() + "'" + "," +
+                "taluka=" + "'" + talukafield.getText() + "'" + "," + "dist=" + "'" + distfield.getText() + "'" + "," +
+                "state=" + "'" + statefield.getValue() + "'" + "," + "country=" + "'" + countryfield.getValue() + "'" + "," +
+                "pincode=" + "'" + pincodefield.getText() + "'" + "," + "phonenumber=" + "'" + phonenumberfield.getText() + "'" + "," +
+                "countrycode=" + "'" + countrycodefield.getValue() + "'" + "," + "email=" + "'" + emailfield.getText() + "'" + "," +
+                "status=" + "'" + "Active" + "'" +
+                "WHERE REGNO=" + "'" + editoption.getText() + "'";
+        try (Connection connection = this.connect()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(updatestring);
+            preparedStatement.executeUpdate();
+            showAlert(Alert.AlertType.CONFIRMATION, "CONFIRMATION", "Saved Sucessfully ");
+            submit.setDisable(true);
+            validate.setDisable(true);
+            firstnamefield.clear();
+            lastnamefield.clear();
+            line1field.clear();
+            line2field.clear();
+            line3field.clear();
+            talukafield.clear();
+            cityfield.clear();
+            distfield.clear();
+            pincodefield.clear();
+            phonenumberfield.clear();
+            emailfield.clear();
+            editoption.setDisable(false);
+            firstnamefield.setDisable(true);
+            lastnamefield.setDisable(true);
+            line1field.setDisable(true);
+            line2field.setDisable(true);
+            line3field.setDisable(true);
+            cityfield.setDisable(true);
+            talukafield.setDisable(true);
+            distfield.setDisable(true);
+            statefield.setDisable(true);
+            countryfield.setDisable(true);
+            pincodefield.setDisable(true);
+            phonenumberfield.setDisable(true);
+            countrycodefield.setDisable(true);
+            emailfield.setDisable(true);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    //*****************************Edit Verify Button***********************************//
+    public void editVerifyButton() {
+        //*******EMPTY
+        if (firstnamefield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "First name field is empty");
+            return;
+        }
+        //********NUMBER OR MIX COATAINS
+        if (firstnamefield.getText().matches("[0-9]+") || (firstnamefield.getText().matches("[A-Za-z]+[0-9]+")) ||
+                (firstnamefield.getText().matches("[0-9]+[A-Za-z]+")) ||
+                firstnamefield.getText().matches("[_!@#%^&*()*-,</.>?]+[a-z]+")) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Check your first name--->Numeric values are not allowed");
+            return;
+        }
+        //EMPTY
+        if (firstnamefield.getText().matches("^[a-zA-Z]{3,}+")) {
+            if (lastnamefield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Last name field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "may contain less than 2" +
+                    " alphabet/charectar/numeric value");
+
+        }
+
+        if (lastnamefield.getText().matches("[0-9]+") || (firstnamefield.getText().matches("[A-Za-z0-9]"))) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Check your last name--->Numberic values are not allowed");
+
+            return;
+        }
+
+        if (lastnamefield.getText().matches("^[A-Za-z]{3,}+")) {
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "may contain less " +
+                    "than 2 alphabet/charectar/numeric value");
+
+            return;
+        }
+
+
+        if (cityfield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "City name field empty");
+
+            return;
+        }
+        if (cityfield.getText().matches("[0-9]+]") || (cityfield.getText().matches("[^A-Za-z0-9_-]*$"))) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and Numbers are not allowed in City Name");
+
+            return;
+        }
+        if (cityfield.getText().matches("[a-zA-Z0-9]+[@()_{%$!^.?=+,;&*/|:<>}~`]") ||
+                (cityfield.getText().matches("[@()_{%$!^.?=+,;&*/|:<>}~`][a-zA-Z0-9]+")) ||
+                (cityfield.getText().matches("[a-zA-Z]+[@()_{%$!^.?=+,;&*/|:<>}~`][0-9]+")) ||
+                (cityfield.getText().matches("[0-9]+[a-zA-Z]+[@()_{%$!^.?=+,;&*/|:<>}~`]")) ||
+                cityfield.getText().matches("[@()_{%$!^.?=+,;&*/|:<>}~`]")) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and Numbers are not allowed in City Name");
+            return;
+        }
+        if (cityfield.getText().matches("^[A-Za-z\\s{0,2}a-zA-Z]+")) {
+            if (talukafield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Taluka Name field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and Numbers are not allowed in City Name");
+            return;
+        }
+
+
+        if (talukafield.getText().matches("[A-Za-z\\s{0,2}A-Za-z]+")) {
+            if (distfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Dist Name field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and Numbers are not allowed in Taluka Name");
+            return;
+        }
+
+        if (distfield.getText().matches("[A-za-z\\s{0,2}a-zA-Z]+")) {
+            if (pincodefield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Pin Code field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and Numbers are not allowed in District Name");
+            return;
+        }
+        if (pincodefield.getText().matches("^[1-9][0-9]{5}$")) {
+            if (emailfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Email Id field is empty ");
+                return;
+            }
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Pin  should contain only Numeric Values");
+            return;
+        }
+        if (emailfield.getText().matches("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+            if (phonenumberfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Phone no field is empty");
+                return;
+
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Invalid Email-Id");
+            return;
+        }
+        if (phonenumberfield.getText().matches("^[1-9][0-9]{9}$")) {
+
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Only 10 digits permitted in phone number");
+            return;
+        }
+        submit.setDisable(false);
+        validate.setDisable(true);
+    }
+
+    //*************************************RESET EDIT********************//
+    public void resetEdit() {
+        editoption.clear();
+        firstnamefield.clear();
+        lastnamefield.clear();
+        line1field.clear();
+        line2field.clear();
+        line3field.clear();
+        talukafield.clear();
+        cityfield.clear();
+        distfield.clear();
+        pincodefield.clear();
+        phonenumberfield.clear();
+        emailfield.clear();
+        editoption.setDisable(false);
+        firstnamefield.setDisable(true);
+        lastnamefield.setDisable(true);
+        line1field.setDisable(true);
+        line2field.setDisable(true);
+        line3field.setDisable(true);
+        cityfield.setDisable(true);
+        talukafield.setDisable(true);
+        distfield.setDisable(true);
+        statefield.setDisable(true);
+        countryfield.setDisable(true);
+        pincodefield.setDisable(true);
+        phonenumberfield.setDisable(true);
+        countrycodefield.setDisable(true);
+        emailfield.setDisable(true);
+        validate.setDisable(false);
+    }
+
+    public void showAlert(Alert.AlertType alertType, String title, String message) {
+        Dialog dialog = new Dialog<>();
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+
+
+    @FXML
+    public void closeButtonAction() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
+    }
+
+    //****************************************GRANT LOAN***************************//
+    @FXML
+    private Button grantValidate;
+
+    public void grantValidation() {
+
+        if (loanamountfield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan amount field is empty");
+            return;
+        } else if ((loanamountfield.getText().equals("0"))) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan amount should be greater than 0");
+
+        } else if (ratefield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Rate field is empty");
+            return;
+
+        } else if (ratefield.getText().equals("0")) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Rate field should be greater than 0");
+            return;
+
+        } else if (collerralVfield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Collateral field is empty");
+            return;
+        } else if (collerralVfield.getText().equals("0")) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Collateral field should be greater than 0");
+
+        } else if (item.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Item field is empty");
+            return;
+
+        } else if(dateofloans.getValue()==null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Date field is empty");
+             return;
+
+        } else if (item.getValue().equals("Other")) {
+            if (descriptionfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Discription Field is empty");
+                return;
+            } else {
+                if (collerralVfield.getText().matches("[0-9]+")) {
+                    double shiva = Double.parseDouble(part1.getText());
+                    double basva = Double.parseDouble(part2.getText());
+                    double loan = Double.parseDouble(loanamountfield.getText());
+
+
+                    if (Double.parseDouble(collerralVfield.getText()) > (shiva + basva)) {
+
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Collateral should be greater than loan amount " +
+                                "");
+                        return;
+                    }
+                }
+            }
+
+
+        }else{
+            if(item.getValue()==null){
+                showAlert(Alert.AlertType.ERROR, "Error", "Item field is empty");
+                if (collerralVfield.getText().matches("[0-9]+")) {
+                    double shiva = Double.parseDouble(part1.getText());
+                    double basva = Double.parseDouble(part2.getText());
+                    double loan = Double.parseDouble(loanamountfield.getText());
+                    if (Double.parseDouble(collerralVfield.getText()) > (shiva + basva)) {
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Collateral should be greater than loan amount " +
+                                "");
+                        return;
+                    }
+                }
+            }
+            }
+        gsubmit.setDisable(false);
+        grantValidate.setDisable(true);
+        collerralVfield.setDisable(true);
+        loanamountfield.setDisable(true);
+        ratefield.setDisable(true);
+        descriptionfield.setDisable(true);
+        collerralVfield.setDisable(true);
+        item.setDisable(true);
+        dateofloans.setDisable(true);
+        part1.setDisable(true);
+        part2.setDisable(true);
+        radio.setDisable(true);
+        }
+
+        //******************************fetch data for granting*********************//
+        public void grantLoanFetch() {
+        if (editoption1.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Customer Id field is Empty");
+        } else {
+            ResultSet resultSet = null;
+
+            String grantstring = "SELECT * from CUSTOMERDETAILS WHERE  REGNO=" + "'" + editoption1.getText() + "'";
+            try (Connection connection = this.connect()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(grantstring);
+                resultSet = preparedStatement.executeQuery();
+                String ss = resultSet.getString("status");
+                if (resultSet.next() == false) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect Customer Id");
+
+                } else {
+                    System.out.println(ss);
+                    if (ss.equals("Inactive")) {
+                        area.setText("Status->" + resultSet.getString("status") + "\n" +
+                                "Full name->" + resultSet.getString("FirstName") +
+                                resultSet.getString("LastName") + "\n" +
+                                "Phone NO->" + resultSet.getString("phonenumber"));
+                        showAlert(Alert.AlertType.ERROR, "Error", "Customer is Inactive");
+                    } else if (ss.equals("Active")) {
+                        area.setText("Status->" + resultSet.getString("status") + "\n" +
+                                "Full name->" + resultSet.getString("FirstName") + resultSet.getString("LastName") + "\n" +
+                                "Phone NO->" + resultSet.getString("phonenumber"));
+                        loanamountfield.setDisable(false);
+                        ratefield.setDisable(false);
+                        collerralVfield.setDisable(false);
+                        item.setDisable(false);
+                        dateofloans.setDisable(false);
+                        grantValidate.setDisable(false);
+                        editoption1.setDisable(true);
+                        radio.setDisable(false);
+                    }
+                }
+            } catch(SQLException e){
+                showAlert(Alert.AlertType.ERROR, "Error", "Incorrect Customer Id");
+                }
+            }
+        }
+
+  //**********************************Reset Grant loan and Close Loan********************//
+    @FXML
+    public void resetGrantLoan() {
+        loanamountfield.clear();
+        loanamountfield.setDisable(true);
+        ratefield.clear();
+        ratefield.setDisable(true);
+        item.setDisable(true);
+        descriptionfield.clear();
+        gsubmit.setDisable(true);
+        dateofloans.setDisable(true);
+        collerralVfield.setDisable(true);
+        collerralVfield.clear();
+        part1.clear();
+        part2.clear();
+        area.clear();
+        radio.selectedProperty().set(false);
+        part1.setDisable(true);
+        part2.setDisable(true);
+        editoption1.clear();
+        editoption1.setDisable(false);
+        grantValidate.setDisable(true);
+        descriptionfield.setDisable(true);
+        dateofloans.getEditor().clear();
+    }
+    //***************************grant loan discription**************************//
+    public void discrip() {
+        if (item.getValue().equals("Other")) {
+            descriptionfield.setDisable(false);
+        } else if (item.getValue().equals("Necklace") || (item.getValue().equals("Bangles")) ||
+                (item.getValue().equals("Earing")) || (item.getValue().equals("Rings"))) {
+            descriptionfield.setDisable(true);
+        }
+    }
+//********************************loan number************************//
+    public String grantNumber() {
+        String s = String.valueOf(dateofloans.getValue().getYear());
+        SQL sql = new SQL();
+        int count = 1;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        String mql = "Select * From GRANTLOAN";
+
+        try (Connection connection = sql.grantconnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(mql);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next() == false) {
+                System.out.println("ResultSet in empty in Java");
+            } else {
+                do {
+                    String data = resultSet.getString(1);
+                    count++;
+                }
+                while (resultSet.next());
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        String p = s + "/" + count;
+        return p;
+
+    }
+    public void loanAmountDivide() {
+        double p1 = Double.parseDouble(loanamountfield.getText());
+        double p2 = Double.parseDouble(loanamountfield.getText());
+        p1 = p1 / 2;
+        p2 = p2 / 2;
+        String update = "UPDATE GRANTLOAN SET partner1Fund=" + "'" + p1 + "'" + "," +
+                "partner2Fund=" + "'" + p2 + "'" + "WHERE REGNO=" + "'" + editoption1 + "'";
+        try (Connection connection = this.grantconnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(update)) {
+            preparedStatement.executeUpdate();
+            if (loanamountfield.getText().isEmpty()) {
+                System.out.println("Loan Amount is empty");
+            }
+            part1.setText(String.valueOf(p1));
+            part2.setText(String.valueOf(p2));
+        } catch (SQLException e) {
+
+        }
+    }
+    public  void colletralHandle() {
+
+        String name = collerralVfield.getText();
+        for (char c : name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                collerralVfield.clear();
+                break;
+            }
+        }
+    }
+
+
+    //*************************CLOSE LOAN**************************************//
+    @FXML
+    private DatePicker startdate;
+    @FXML
+    private DatePicker enddate;
+    @FXML
+    private TextField loanamount;
+    @FXML
+    private TextField result;
+    @FXML
+    private Button calulate;
+    private double intrest;
+    @FXML
+    private Text total;
+    @FXML
+    private TextArea closearea;
+    @FXML
+    private TextField totaladvance;
+    @FXML
+    private TextField finalamount;
+
+
+
+
+    public double interstCalcualtions() throws SQLException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(("d/M/yyyy"));
+        String sdate = startd.getText();
+
+        LocalDate localDate = LocalDate.parse(sdate, formatter);
+        Period differnce = Period.between(localDate, endd.getValue());
+        int year = differnce.getYears();
+        int month = differnce.getMonths();
+        int days = (differnce.getDays()) + 1;
+        double loanAmount = Double.parseDouble(loanAmfield.getText());
+        double rate = Double.parseDouble(ratefield1.getText());
+
+        total.setText(year + "Years  " + month + "Month  " + (days - 1) + "Days");
+        if (year == 0) {
+            if (days <= 7) {
+                intrest = (loanAmount * (rate) * month) / 100;
+            } else if (days > 7 && days <= 21) {
+                intrest = ((loanAmount) * (rate) * (month + 0.5)) / 100;
+            } else if (days > 21) {
+                intrest = (loanAmount * (rate) * (month + 1)) / 100;
+            }
+
+
+        } else if (year != 0) {
+            if (days <= 7) {
+                double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                double monthcal = (loanAmount * rate * month) / 100;
+                intrest = yearcal + monthcal;
+            } else if (days > 7 && days <= 21) {
+                double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                double monthcal = loanAmount * rate * (month + 0.5) / 100;
+                intrest = yearcal + monthcal;
+
+            } else if (days > 21) {
+                double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                double monthcal = (loanAmount * rate * (month + 1)) / 100;
+                intrest = yearcal + monthcal;
+            }
+
+        }
+        result.setText(String.valueOf(intrest));
+
+        String s = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+        try (Connection connection = this.grantconnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(s)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            double partner1 = Double.parseDouble(resultSet.getString("partner1Fund"));
+            double partner2 = Double.parseDouble(resultSet.getString("partner2Fund"));
+            double partner = (partner1 + partner2);
+            ResultSet resultSet1 = null;
+
+            String m = "SELECT * from ADVANCEPAYMENT where LOANNUMBER=" + "'" + closefield.getText() + "'";
+
+            try (Connection connection4 = this.connect3();
+                 PreparedStatement preparedStatement3 = connection4.prepareStatement(m)) {
+                resultSet1 = preparedStatement3.executeQuery();
+
+
+
+
+//                totaladvance.setText(String.valueOf(sum));
+//                finalamount.setText(String.valueOf(intrest - sum));
+//                closearea.setText("Partner1-> Fund=" + (partner1) + "\t" +
+//                        "Interst=" + ((intrest * (partner1 / partner)) - sum1) + "\n" + "Total Amount->" +
+//                        Math.round(((intrest * (partner1 / partner)) - sum1) + (partner1)) + "\n" +
+//                        "*********************************" + "\n" +
+//                        "Partner2-> Fund=" + (partner2) + "\t " +
+//                        "Interst=" + ((intrest * (partner2 / partner)) - sum2) + "\n" + "Total Amount->" +
+//                        Math.round(((intrest * (partner2 / partner)) - sum2) + (partner2)));
+
+                if ((resultSet1.next() == false)) {
+                    double sum = 0;
+                    double sum1 = 0;
+                    double sum2 = 0;
+                    double s3 = 0;
+                    double s4 = 0;
+                    double s5 = 0;
+
+                    System.out.println(sum);
+                    totaladvance.setText(String.valueOf(sum));
+                    finalamount.setText(String.valueOf(intrest - sum));
+                    closearea.setText("Partner1-> Fund=" + (partner1) + "\t" +
+                            "Interst=" + ((intrest * (partner1 / partner)) - sum1) + "\n" + "Total Amount->" +
+                            Math.round(((intrest * (partner1 / partner)) - sum1) + (partner1)) + "\n" +
+                            "*********************************" + "\n" +
+                            "Partner2-> Fund=" + (partner2) + "\t " +
+                            "Interst=" + ((intrest * (partner2 / partner)) - sum2) + "\n" + "Total Amount->" +
+                            Math.round(((intrest * (partner2 / partner)) - sum2) + (partner2)));
+                    closesubmit.setDisable(false);
+
+
+                }else {
+                    double sum = 0;
+                    double sum1 = 0;
+                    double sum2 = 0;
+                    double s3 = 0;
+                    double s4 = 0;
+                    double s5 = 0;
+                    String l = resultSet1.getString(7);
+                    System.out.println(l);
+                    if (l.equals("Inactive")) {
+                        sum = 0;
+                        sum1 = 0;
+                        sum2 = 0;
+                        totaladvance.setText(String.valueOf(sum));
+                        finalamount.setText(String.valueOf(intrest - sum));
+                        closearea.setText("Partner1-> Fund=" + (partner1) + "\t" +
+                                "Interst=" + ((intrest * (partner1 / partner)) - sum1) + "\n" + "Total Amount->" +
+                                Math.round(((intrest * (partner1 / partner)) - sum1) + (partner1)) + "\n" +
+                                "*********************************" + "\n" +
+                                "Partner2-> Fund=" + (partner2) + "\t " +
+                                "Interst=" + ((intrest * (partner2 / partner)) - sum2) + "\n" + "Total Amount->" +
+                                Math.round(((intrest * (partner2 / partner)) - sum2) + (partner2)));
+                        closesubmit.setDisable(false);
+                    } else if (l.equals("Active")) {
+
+
+                        do {
+                            double am = Double.parseDouble(resultSet1.getString(2));
+                            sum = s4 + am;
+                            s4 = am;
+                            double s1 = Double.parseDouble(resultSet1.getString(4));
+                            sum1 = s3 + s1;
+                            s3 = s1;
+                            double s2 = Double.parseDouble(resultSet1.getString(5));
+                            sum2 = s5 + s2;
+                            s5 = s2;
+
+
+                        } while (resultSet1.next() == true);
+                        {
+                            System.out.println(sum);
+                            totaladvance.setText(String.valueOf(sum));
+                            finalamount.setText(String.valueOf(intrest - sum));
+                            closearea.setText("Partner1-> Fund=" + (partner1) + "\t" +
+                                    "Interst=" + ((intrest * (partner1 / partner)) - sum1) + "\n" + "Total Amount->" +
+                                    Math.round(((intrest * (partner1 / partner)) - sum1) + (partner1)) + "\n" +
+                                    "*********************************" + "\n" +
+                                    "Partner2-> Fund=" + (partner2) + "\t " +
+                                    "Interst=" + ((intrest * (partner2 / partner)) - sum2) + "\n" + "Total Amount->" +
+                                    Math.round(((intrest * (partner2 / partner)) - sum2) + (partner2)));
+                            closesubmit.setDisable(false);
+                            calcutebutton.setDisable(true);
+
+                            System.out.println(resultSet1.getInt(4));
+                            double s1 = Double.parseDouble(resultSet1.getString(4));
+                            System.out.println(s1);
+                            double s2 = Double.parseDouble(resultSet1.getString(5));
+                            totaladvance.setText(String.valueOf(s1));
+                        }
+                    }
+                }
+
+            }catch(SQLException e){
+
+            } finally{
+                grantconnection().close();
+            }
+
+            }catch(SQLException e){
+            e.getMessage();
+        }
+        return intrest;
+    }
+    //********************************fetch data to close loan***********************//
+    @FXML
+    public void closeLoanFetch() {
+        ResultSet resultSet = null;
+        if(closefield.getText().isEmpty()){
+         showAlert(Alert.AlertType.ERROR,"Error","Loan number field is empty");
+        }else {
+            String closecus = "select * from GRANTLOAN WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+            try (Connection connection = this.grantconnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(closecus);
+                resultSet = preparedStatement.executeQuery();
+
+                if(resultSet.next()==false){
+                    showAlert(Alert.AlertType.ERROR,"Error","Incorrect loan number");
+
+                }else {
+                    String s = resultSet.getString(15);
+                    if (s.equals("YES")) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Loan Account is already closed");
+                    } else if (s.equals("Inactive")) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Loan Account is Inactive");
+                    } else if (s.equals("NO")) {
+                        loanAmfield.setText(resultSet.getString(2));
+                        ratefield1.setText(resultSet.getString(3));
+                        startd.setText(resultSet.getString(4));
+                        String m = resultSet.getString("REGNO");
+                        String sb = "SELECT * From CUSTOMERDETAILS Where REGNO=" + "'" + m + "'";
+                        Connection connection2 = this.connect();
+                        PreparedStatement preparedStatement1 = connection2.prepareStatement(sb);
+                        ResultSet resultSet1 = preparedStatement1.executeQuery();
+                        customerclosearea.setText("Full Name=" + resultSet1.getString("FirstName") + " " +
+                                resultSet1.getString("LastName") + "\n" +
+                                resultSet1.getString("phoneNumber") + "\n" +
+                                resultSet1.getString("city"));
+                        endd.setDisable(false);
+                        calcutebutton.setDisable(false);
+                        String g = "SELECT * from ADVANCEPAYMENT where LOANNUMBER=" + "'" + closefield.getText() + "'";
+                        try (Connection connection3 = this.connect3();
+                             PreparedStatement preparedStatement2 = connection3.prepareStatement(g)) {
+                            ResultSet resultSet3 = preparedStatement2.executeQuery();
+                            double s1 = Double.parseDouble(resultSet3.getString(4));
+                            double s2 = Double.parseDouble(resultSet3.getString(5));
+                        } catch (SQLException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    public void resetGrantClose(){
+        closefield.clear();
+        loanAmfield.clear();
+        ratefield1.clear();
+        startd.clear();
+        endd.getEditor().clear();
+        result.clear();
+        totaladvance.clear();
+        finalamount.clear();
+        closearea.clear();
+        closesubmit.setDisable(true);
+        calcutebutton.setDisable(true);
+        total.setText("");
+        customerclosearea.clear();
+
+    }
+    @FXML
+    public void closeGrantSubmit() {
+
+        String j = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+        try (Connection connection1 = this.grantconnection();
+             PreparedStatement preparedStatement1 = connection1.prepareStatement(j)) {
+            ResultSet resultSet = preparedStatement1.executeQuery();
+            String s5 = resultSet.getString(5);
+            String s6 = resultSet.getString(6);
+            String s7 = resultSet.getString(7);
+            String s8 = resultSet.getString(8);
+            String s9 = resultSet.getString(9);
+            String s10 = resultSet.getString(10);
+            double partn1 = Double.parseDouble(s9);
+            double partn2 = Double.parseDouble(s10);
+            double partn3 = partn1 + partn2;
+
+            String k = "INSERT INTO GRANTLOAN(LoanNumber,LoanAmount,Rate,startDate,ColleteralValue,Items," +
+                    "Description,REGNO,partner1Fund,partner2Fund,endDate,totalInterst," +
+                    "partner1Interst,partner2Interst,closed) " +
+                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            try (Connection connection = this.connect12();
+                 PreparedStatement preparedStatement = connection.prepareStatement(k)) {
+
+                preparedStatement.setString(1, closefield.getText());
+                preparedStatement.setString(2, loanAmfield.getText());
+                preparedStatement.setString(3, ratefield1.getText());
+                preparedStatement.setString(4, startd.getText());
+                preparedStatement.setString(11, String.valueOf(endd.getValue()));
+                preparedStatement.setString(5, s5);
+                preparedStatement.setString(6, s6);
+                preparedStatement.setString(7, s7);
+                preparedStatement.setString(8, s8);
+                preparedStatement.setString(9, s9);
+                preparedStatement.setString(10, s10);
+                preparedStatement.setString(12, String.valueOf(interstCalcualtions()));
+                preparedStatement.setString(13, String.valueOf((partn1 / partn3) * interstCalcualtions()));
+                preparedStatement.setString(14, String.valueOf((partn2 / partn3) * interstCalcualtions()));
+                preparedStatement.setString(15, "YES");
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+        String h = "UPDATE GRANTLOAN SET closed='YES' WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+        try (Connection connection2 = this.grantconnection();
+             PreparedStatement preparedStatement2 = connection2.prepareStatement(h)) {
+            preparedStatement2.executeUpdate();
+            closesubmit.setDisable(true);
+            resetGrantClose();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void resetClose() {
+        closefield.clear();
+        closefield.setDisable(false);
+        fetchclosed.setDisable(false);
+        endd.setDisable(true);
+
+    }
+
+    @FXML
+    public void closedSubmit() {
+        String m = "select sum (partner1 ) from ADVANCEPAYMENT where LOANNUMBER=" + "'" + closefield.getText() + "'";
+        try (Connection connection = this.connect3();
+             PreparedStatement preparedStatement = connection.prepareStatement(m)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            double s1 = Double.parseDouble(resultSet.getString(4));
+            System.out.println(s1);
+            double s2 = Double.parseDouble(resultSet.getString(5));
+
+
+            String s = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+            try (Connection connection3 = this.grantconnection();
+                 PreparedStatement preparedStatement3 = connection3.prepareStatement(s)) {
+                ResultSet resultSet3 = preparedStatement3.executeQuery();
+                double partner1 = Double.parseDouble(resultSet3.getString("partner1Fund"));
+                double partner2 = Double.parseDouble(resultSet3.getString("partner2Fund"));
+
+
+                String sql = "UPDATE GRANTLOAN SET " + "closed='YES'" + "," +
+                        "totalInterst=" + "'" + interstCalcualtions() + "'" + "," +
+                        "endDate=" + "'" + endd.getValue() + "'" + "," +
+                        "partner1Interst=" + "'" + (interstCalcualtions() * ((partner1) / (partner1 + partner2)) - s1) + "'" + "," +
+                        "partner2Interst=" + "'" + (interstCalcualtions() * ((partner2) / partner1 + partner2) - s2) + "'" + "WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+                try (Connection connection1 = this.grantconnection();
+                     PreparedStatement preparedStatement1 = connection1.prepareStatement(sql)) {
+                    preparedStatement1.executeUpdate();
+                    showAlert(Alert.AlertType.CONFIRMATION, "Confirmation", "Closed Sucessfully");
+                    closefield.clear();
+                    loanAmfield.clear();
+                    ratefield1.clear();
+                    startd.clear();
+                    calcutebutton.setDisable(true);
+                    closearea.clear();
+                    result.clear();
+                    total.setDisable(true);
+                    closesubmit.setDisable(true);
+
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+
+@FXML
+private CheckBox checkBox;
+
+
+
+    @FXML
+    private TextField loandeletefield;
+    @FXML
+    private TextField ratefielddelete;
+    @FXML
+    private TextField startdelete;
+
+    @FXML
+    private TextArea customerareadelete;
+    @FXML
+    private TextField inquiryint;
+
+    @FXML
+    private TextField inquiryend;
+    @FXML
+    private TextField collet;
+
+//**********************************Delete Loans***********************************//
+    public void fetchDeleteButton() {
+        ResultSet resultSet = null;
+        String s = "SELECT * From GRANTLOAN WHERE LoanNumber=" + "'" + closefielddelete.getText() + "'";
+        try (Connection connection = this.grantconnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(s)) {
+            resultSet = preparedStatement.executeQuery();
+            loandeletefield.setText(resultSet.getString(2));
+            ratefielddelete.setText(resultSet.getString(3));
+            startdelete.setText(resultSet.getString(4));
+            inquiryint.setText(resultSet.getString(12));
+            inquiryend.setText(resultSet.getString(11));
+            collet.setText(resultSet.getString(5));
+            String m = resultSet.getString(8);
+            String sb = "SELECT * From CUSTOMERDETAILS Where REGNO=" + "'" + m + "'";
+            Connection connection2 = this.connect();
+            PreparedStatement preparedStatement1 = connection2.prepareStatement(sb);
+            ResultSet resultSet1 = preparedStatement1.executeQuery();
+            customerareadelete.setText("Full Name=" + resultSet1.getString("FirstName") + " " +
+                    resultSet1.getString("LastName") + "\n" +
+                    resultSet1.getString("phoneNumber") + "\n" +
+                    resultSet1.getString("city"));
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            showAlert(Alert.AlertType.ERROR,"Error","Incorrect loan number");
+        }
+    }
+    @FXML
+    public void deleteInactiveaLoan() {
+        if (checkBox.isSelected()) {
+            String sb = "UPDATE GRANTLOAN SET closed='Inactice' WHERE LoanNumber=" + "'" + closefielddelete.getText() + "'";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sb)) {
+                preparedStatement.executeUpdate();
+                showAlert(Alert.AlertType.CONFIRMATION, "Cofirmation", "Your account is deactivated");
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+    //********************************************complete delete loans**********************//
+
+    @FXML
+    private TextField part1;
+    @FXML
+    private TextField part2;
+
+
+
+
+
+    @FXML
+    private RadioButton radio;
+
+
+
+    public void editsubmi2() {
+        String h = "UPDATE GRANTLOAN SET closed='YES' WHERE LoanNumber=" + "'" + closefield.getText() + "'";
+        try (Connection connection2 = this.grantconnection();
+             PreparedStatement preparedStatement2 = connection2.prepareStatement(h)) {
+            preparedStatement2.executeUpdate();
+            closesubmit.setDisable(true);
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    //**********************************EDIT LOANS*******************************//
+    public void editLoansFetch() {
+        ResultSet resultSet = null;
+        if (editoption1.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan number field is empty");
+        } else {
+            String se = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + editoption1.getText() + "'";
+            try (Connection connection = this.grantconnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(se);
+                resultSet = preparedStatement.executeQuery();
+                  if(resultSet.next()==false) {
+                      showAlert(Alert.AlertType.ERROR, "Error", "Incorrect loan number");
+                  }else{
+                    String n = resultSet.getString("closed");
+                    System.out.println(n);
+                    String m = resultSet.getString("REGNO");
+                    ResultSet resultSet1 = null;
+                    String grantstring = "SELECT * from CUSTOMERDETAILS WHERE  REGNO=" + "'" + m + "'";
+                    try (Connection connection1 = this.connect()) {
+                        PreparedStatement preparedStatement1 = connection1.prepareStatement(grantstring);
+                        resultSet1 = preparedStatement1.executeQuery();
+                        String ss = resultSet1.getString("status");
+                        System.out.println(ss);
+                        if (resultSet1.next() == false) {
+
+                        } else {
+                            if (n.equals("Inactive")) {
+                                showAlert(Alert.AlertType.INFORMATION, "INACTIVE", "Deleted Account. Modification not allowed");
+                            } else if (n.equals("YES")) {
+                                showAlert(Alert.AlertType.INFORMATION, "CLOSED", "Closed Account.Modification not allowed");
+                            } else if ((ss.equals("Active")) && (n.equals("NO"))) {
+                                area.setText("Status->" + resultSet1.getString("status") + "\n" +
+                                        "Full name->" + resultSet1.getString("FirstName") +
+                                        resultSet1.getString("LastName") + "\n" +
+                                        "Phone NO->" + resultSet1.getString("phonenumber"));
+                                loanamountfield.setDisable(false);
+                                ratefield.setDisable(false);
+                                collerralVfield.setDisable(false);
+                                item.setDisable(false);
+                                descriptionfield.setDisable(false);
+                                dateofloans.setDisable(false);
+                                grantValidate.setDisable(false);
+                                editoption1.setDisable(true);
+                                radio.setDisable(false);
+                                loanamountfield.setText(resultSet.getString(2));
+                                collerralVfield.setText(resultSet.getString(5));
+                                ratefield.setText(resultSet.getString("Rate"));
+                                descriptionfield.setText(resultSet.getString(6));
+                                part1.setText(resultSet.getString(9));
+                                part2.setText(resultSet.getString(10));
+                            }
+                        }
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                        showAlert(Alert.AlertType.ERROR, "Error", "Incorrect loan number");
+                    }
+                }
+
+            } catch (SQLException e) {
+
+                showAlert(Alert.AlertType.ERROR, "Error", "Incorrect loan number");
+            }
+        }
+    }
+    public void radioButtonEditLoans() {
+        boolean checked = radio.isSelected();
+        try {
+            if ((Double.parseDouble(loanamountfield.getText())) > 0.0) {
+                double p1 = Double.parseDouble(loanamountfield.getText());
+                double p2 = p1 / 2;
+                double part3 = Double.parseDouble(part1.getText());
+                double part4 = Double.parseDouble(part2.getText());
+                if (checked) {
+                    part1.setDisable(false);
+                    part2.setDisable(false);
+                    double part5 = part3 + part4;
+                    if (part5 == p1) {
+                        System.out.println("correct");
+                    } else {
+                        part1.setText(String.valueOf(p2));
+                        part2.setText(String.valueOf(p2));
+                        radio.setDisable(true);
+                        return;
+                    }
+                } else {
+                    part1.setDisable(true);
+                    part2.setDisable(true);
+                    part1.setText(String.valueOf(p2));
+                    part2.setText(String.valueOf(p2));
+                }
+            }
+        } catch (NumberFormatException e) {
+            loanamountfield.setText("0");
+            part1.setText("0");
+            part2.setText("0");
+            radio.selectedProperty().set(false);
+        }
+    }
+    public void onKeyRel1() {
+        double p1 = Double.parseDouble(loanamountfield.getText());
+        double p2 = p1 / 2;
+        double part3 = Double.parseDouble(part1.getText());
+        double part4 = Double.parseDouble(part2.getText());
+        double part5 = part3 + part4;
+        if (p1 == part5) {
+
+        } else {
+            p1 = p1 - part3;
+            part2.setText(String.valueOf(p1));
+        }
+    }
+    public void onKeyRel2() {
+        double p1 = Double.parseDouble(loanamountfield.getText());
+        double p2 = p1 / 2;
+        double part3 = Double.parseDouble(part1.getText());
+        double part4 = Double.parseDouble(part2.getText());
+        double part5 = part3 + part4;
+        if (p1 == part5) {
+
+        } else {
+            p1 = p1 - part4;
+            part1.setText(String.valueOf(p1));
+        }
+    }
+
+    @FXML
+    private CheckBox check;
+
+    public void submitEditLoans() {
+        if (!check.isSelected()) {
+            ResultSet resultSet = null;
+            String b = "UPDATE GRANTLOAN SET LoanAmount=" + "'" + loanamountfield.getText() + "'" + "," +
+                    "Rate=" + "'" + ratefield.getText() + "'" + "," + "ColleteralValue=" + "'" + collerralVfield.getText() + "'" + "," +
+                    "partner1Fund=" + "'" + part1.getText() + "'" + "," + "partner2Fund=" + "'" + part2.getText() + "'" +
+                    "where LoanNumber=" + "'" + editoption1.getText() + "'";
+            try (Connection connection = this.grantconnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(b);
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } else if (check.isSelected()) {
+            ResultSet resultSet = null;
+            String b = "UPDATE GRANTLOAN SET LoanAmount=" + "'" + loanamountfield.getText() + "'" + "," +
+                    "Rate=" + "'" + ratefield.getText() + "'" + "," + "ColleteralValue=" + "'" + collerralVfield.getText() + "'" + "," +
+                    "partner1Fund=" + "'" + part1.getText() + "'" + "," + "partner2Fund=" + "'" + part2.getText() + "'"
+                    + "," + "closed='Inactive' where LoanNumber=" + "'" + editoption1.getText() + "'";
+            try (Connection connection = this.grantconnection()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(b);
+                preparedStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+        showAlert(Alert.AlertType.INFORMATION, "Information", "Saved Sucessfully");
+    }
+
+    public void validation1() {
+        if (loanamountfield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan Amount field is empty");
+            return;
+        }
+        if (loanamountfield.getText().matches("[+-]?([0-9]*[.])?[0-9]+")) {
+            if (ratefield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Rate field is empty");
+
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan Amount field should not contain any alphabet");
+            return;
+        }
+        if (ratefield.getText().matches("[+-]?([0-9]*[.])?[0-9]+")) {
+            if (collerralVfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Colletral field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Rate field should not contain any alphabet");
+            return;
+
+        }
+        if (collerralVfield.getText().matches("[+-]?([0-9]*[.])?[0-9]+")) {
+            if (dateofloans.getValue() == null) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Date field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Colletral should not contain any alphabet");
+            return;
+        }
+        if (!(dateofloans.getValue() == null)) {
+            if ((Double.parseDouble(collerralVfield.getText()) <= (Double.parseDouble(loanamountfield.getText())))) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Colletral field should greater than loan amount");
+                return;
+
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Date field is empty");
+            return;
+
+        }
+        gsubmit.setDisable(false);
+
+    }
+    //***********************SEARCH CUSTOMER********************************//
+    public void showsearch() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Search");
+        dialog.resizableProperty().asObject().set(true);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("Search2.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    @FXML
+    private TextField firstnames;
+    @FXML
+    private TextField lastnames;
+    @FXML
+    private TextField phonenumbers;
+    @FXML
+    private TextField customerid;
+    @FXML
+    private TextField loannum;
+    @FXML
+    private TextArea searcharea;
+    @FXML
+    private  TableView<searchtable>table;
+    @FXML
+    private TableColumn<searchtable,String>REGNO;
+    @FXML
+    private TableColumn<searchtable,String>FirstName;
+    @FXML
+    private TableColumn<searchtable,String>LastName;
+    @FXML
+    private TableColumn<searchtable,String>address;
+    @FXML
+    private TableColumn<searchtable,String>phonenumber;
+    @FXML
+    private TableColumn<searchtable,String>status;
+    ObservableList<searchtable> oblist = FXCollections.observableArrayList();
+
+    public  void searchcu(){
+     REGNO.setCellValueFactory(new PropertyValueFactory<>("REGNO"));
+     FirstName.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+     LastName.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+     address.setCellValueFactory(new PropertyValueFactory<>("address"));
+     phonenumber.setCellValueFactory(new PropertyValueFactory<>("phonenumber"));
+     status.setCellValueFactory(new PropertyValueFactory<>("status"));
+     table.setItems(oblist);
+
+    }
+    public void searchcustomers() {
+        oblist.clear();
+        if (!(firstnames.getText().isEmpty())) {
+            oblist.clear();
+            lastnames.clear();
+            phonenumbers.clear();
+            customerid.clear();
+            ResultSet resultSet = null;
+            String search = "SELECT * FROM CUSTOMERDETAILS WHERE firstName LIKE"
+                    + "'" + "%" + firstnames.getText() + "%" + "'";
+            try (Connection connection = this.connect();
+                 PreparedStatement preparedStatement = connection.prepareStatement(search)) {
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()==false) {
+                    showAlert(Alert.AlertType.INFORMATION, "Information", "No results");
+                }else{
+                    while (resultSet.next()) {
+                        System.out.println("done");
+                        oblist.add(new searchtable(resultSet.getString("REGNO"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+
+                                resultSet.getString("city"),
+                                resultSet.getString("phonenumber"),
+                                resultSet.getString("status")));
+                        searchcu();
+                    }
+                }
+
+
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } else if (!(lastnames.getText().isEmpty())) {
+            oblist.clear();
+            firstnames.clear();
+            customerid.clear();
+            phonenumbers.clear();
+            ResultSet resultSet = null;
+            String search = "SELECT * FROM CUSTOMERDETAILS WHERE lastName LIKE"
+                    + "'" + "%" + lastnames.getText() + "%" + "'";
+            try (Connection connection = this.connect();
+                 PreparedStatement preparedStatement = connection.prepareStatement(search)) {
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next()==false) {
+                    showAlert(Alert.AlertType.INFORMATION, "Information", "No results");
+                }else{
+                    while (resultSet.next()) {
+                        System.out.println("done");
+                        oblist.add(new searchtable(resultSet.getString("REGNO"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+
+                                resultSet.getString("city"),
+                                resultSet.getString("phonenumber"),
+                                resultSet.getString("status")));
+                        searchcu();
+                    }
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+
+        } else if (!(phonenumbers.getText().isEmpty())) {
+            oblist.clear();
+            firstnames.clear();
+            lastnames.clear();
+            customerid.clear();
+            ResultSet resultSet = null;
+            String search = "SELECT * FROM CUSTOMERDETAILS WHERE phonenumber LIKE"
+                    + "'" + "%" + phonenumbers.getText() + "%" + "'";
+            try (Connection connection = this.connect();
+                 PreparedStatement preparedStatement = connection.prepareStatement(search)) {
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next() == false) {
+                    showAlert(Alert.AlertType.INFORMATION, "Information", "No results");
+
+                } else {
+
+                    do {
+                        System.out.println("done");
+                        oblist.add(new searchtable(resultSet.getString("REGNO"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+
+                                resultSet.getString("city"),
+                                resultSet.getString("phonenumber"),
+                                resultSet.getString("status")));
+                        searchcu();
+                    } while (resultSet.next());
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+
+        } else if (!(customerid.getText().isEmpty())) {
+
+            oblist.clear();
+            firstnames.clear();
+            lastnames.clear();
+
+            ResultSet resultSet = null;
+            String mk = "SELECT * FROM CUSTOMERDETAILS WHERE REGNO="
+                    + "'" + customerid.getText() + "'";
+
+            try (Connection connection = this.connect();
+                 PreparedStatement preparedStatement = connection.prepareStatement(mk)) {
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next() == false) {
+                    showAlert(Alert.AlertType.INFORMATION, "Information", "No results");
+                } else {
+                    do {
+                        oblist.add(new searchtable(resultSet.getString("REGNO"),
+                                resultSet.getString("FirstName"),
+                                resultSet.getString("LastName"),
+                                resultSet.getString("city"),
+                                resultSet.getString("phonenumber"),
+                                resultSet.getString("status")));
+                        searchcu();
+                    } while (resultSet.next());
+                }
+
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Search with atleast one field");
+        }
+    }
+    public void searchReset() {
+        firstnames.clear();
+        lastnames.clear();
+        customerid.clear();
+        phonenumbers.clear();
+        oblist.clear();
+    }
+//*****************************************customer search complted*****************//
+    @FXML
+    private TextField statefield2;
+    @FXML
+    private TextField countryfield2;
+    @FXML
+    private TextField countrycodefield2;
+    @FXML
+    private TextField inquiryname;
+    @FXML
+    private TextField inquiryphone;
+    @FXML
+    private TextField inquirycity;
+    @FXML
+    private TextField inquiryloanamtoun;
+    @FXML
+    private TextField rateinquiry;
+    @FXML
+    private TextField dateofinquiry;
+    @FXML
+    private TextField closeinquiry;
+
+//****************************************Loan Inquiry*********************************//
+    public void inquiryLoan() {
+        if (editoption1.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan number field is empty");
+        } else {
+            ResultSet resultSet = null;
+            String a = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + editoption1.getText() + "'";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(a)) {
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next() == false) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect loan number");
+                } else {
+                    inquiryloanamtoun.setText(resultSet.getString(2));
+                    rateinquiry.setText(resultSet.getString(3));
+                    dateofinquiry.setText(resultSet.getString(4));
+                    closeinquiry.setText(resultSet.getString("closed"));
+                    String g = resultSet.getString("closed");
+                    if (g.equals("YES")) {
+                        ResultSet rs2 = null;
+                        String d = "Select * from GRANTLOAN WHERE LoanNumber=" + "'" + editoption1.getText() + "'";
+                        try (Connection connection4 = this.connect12();
+                             PreparedStatement preparedStatement4 = connection4.prepareStatement(d)) {
+                            rs2 = preparedStatement4.executeQuery();
+                            inquiryend.setText(rs2.getString("endDate"));
+                            inquiryint.setText(rs2.getString(12));
+                            collet.setText(rs2.getString(5));
+                        } catch (SQLException e) {
+                            e.getMessage();
+                        }
+                    }
+                    String f = resultSet.getString("REGNO");
+                    String h = "SELECT * FROM CUSTOMERDETAILS WHERE REGNO=" + "'" + f + "'";
+                    ResultSet resultSet1 = null;
+                    try (Connection connection1 = this.connect();
+                         PreparedStatement preparedStatement1 = connection1.prepareStatement(h)) {
+                        resultSet1 = preparedStatement1.executeQuery();
+                        inquiryname.setText(resultSet1.getString(2) + " " + resultSet1.getString(3));
+                        inquirycity.setText(resultSet1.getString(7));
+                        inquiryphone.setText(resultSet1.getString(13));
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Error", "Incorrect loan number");
+            }
+        }
+    }
+
+    //*******************************advance payment**************************//
+    @FXML
+    private TextField advanceloan;
+    @FXML
+    private DatePicker advancedate;
+    @FXML
+    private TextField payment;
+    @FXML
+    private Button verifypayment;
+    @FXML
+    private Button resetpayment;
+    @FXML
+    private Button advancesubmit;
+    @FXML
+    private TextField times;
+    @FXML
+    private TextField totalp;
+    @FXML
+    private TextField loan2;
+    @FXML
+    private TextArea paymentresult;
+    @FXML
+    private TextField loanpayment;
+    @FXML
+    private TextField editpayment;
+    @FXML
+    private DatePicker editdate;
+    @FXML
+    private CheckBox checkedit;
+    @FXML
+    private CheckBox checkdelete;
+    @FXML
+    private Button paymentsubmit;
+    @FXML
+    private Button fetchpayment;
+
+
+
+    public void verifyPayment() {
+        if (advanceloan.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan Amount is Empty");
+            return;
+        }
+        if (advancedate.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Date field is Empty");
+            return;
+        }
+        if (payment.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Payment field is Empty");
+            return;
+        }
+        if (payment.getText().matches("[0-9]+")) {
+            System.out.println("completed");
+        }
+        advancesubmit.setDisable(false);
+
+    }
+    public void advance() {
+        ResultSet resultSet = null;
+        if (advanceloan.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan number field is empty");
+        } else {
+            String s = "select * from GRANTLOAN where LoanNumber=" + "'" + advanceloan.getText() + "'";
+            try (Connection connection1 = this.grantconnection();
+                 PreparedStatement preparedStatement1 = connection1.prepareStatement(s)) {
+                resultSet = preparedStatement1.executeQuery();
+
+                if(!resultSet.isBeforeFirst()){
+                   showAlert(Alert.AlertType.ERROR,"Error","Incorrect Loan number");
+
+                }else {
+                    String d = resultSet.getString("closed");
+                    if (d.equals("NO")) {
+                        advancedate.setDisable(false);
+                        advanceloan.setDisable(true);
+                        payment.setDisable(false);
+                        verifypayment.setDisable(true);
+                        advancesubmit.setDisable(false);
+
+                    } else if (d.equals("YES")) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Loan account is closed");
+                    } else if (d.equals("Inactive")) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Loan account is deleted");
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Incorrect Loan number");
+                    }
+                }
+
+            } catch (SQLException e) {
+
+            }
+        }
+    }
+
+
+    public void paymentReset() {
+        advanceloan.clear();
+        payment.clear();
+        advancedate.getEditor().clear();
+        advancesubmit.setDisable(true);
+        payment.setDisable(true);
+        advancedate.setDisable(true);
+        verifypayment.setDisable(false);
+        advanceloan.setDisable(false);
+
+    }
+
+    public void paymentSubmit() {
+        if (advanceloan.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Loan Amount field is empty");
+            return;
+        }
+        if (advancedate.getValue() == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Date field is empty");
+            return;
+        }
+        if (payment.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Payment field is empty");
+            return;
+        }
+        if (payment.getText().matches("[0-9]+")) {
+            System.out.println("completed");
+        }
+        //**********************************************//
+        ResultSet resultSet = null;
+        String pay = "INSERT INTO ADVANCEPAYMENT(LOANNUMBER,InterstAmount,dateofpayment," +
+                "partner1,partner2,paymentnumber,status)VALUES(?,?,?,?,?,?,?)";
+        try (Connection connection = this.connect3();
+             PreparedStatement preparedStatement = connection.prepareStatement(pay)) {
+            preparedStatement.setString(1, advanceloan.getText());
+            preparedStatement.setString(2, payment.getText());
+            preparedStatement.setString(3, advancedate.getValue().getDayOfMonth() +
+                    "/" + advancedate.getValue().getMonthValue()
+                    + "/" + advancedate.getValue().getYear());
+            preparedStatement.setString(6, paymentnumber());
+            preparedStatement.setString(7,"Active");
+            String o = advanceloan.getText();
+            System.out.println(o);
+
+            String p = "SELECT * FROM GRANTLOAN where LoanNumber=" + "'" + o + "'";
+            try (Connection connection1 = this.grantconnection();
+                 PreparedStatement preparedStatement1 = connection1.prepareStatement(p)) {
+                resultSet = preparedStatement1.executeQuery();
+                showAlert(Alert.AlertType.CONFIRMATION, "Confirmation",
+                        "Payment registration number is " + paymentnumber());
+                double a1 = Double.parseDouble(resultSet.getString("partner1Fund"));
+                double a2 = Double.parseDouble(resultSet.getString("partner2Fund"));
+                double b = (a1 + a2);
+                double a = Double.parseDouble(payment.getText());
+                preparedStatement.setString(4, String.valueOf((a1 / b) * a));
+                preparedStatement.setString(5, String.valueOf((a2 / b) * a));
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        paymentReset();
+
+    }
+
+    public void paymentInquiry() {
+        fetchpayment.setDisable(true);
+        loan2.setDisable(true);
+        int count = 0;
+        double f = 0;
+        ResultSet resultSet = null;
+
+        if (loan2.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR,"Error","Loan number field is empty");
+
+        }else {
+            String z = "SELECT * FROM ADVANCEPAYMENT where LOANNUMBER=" + "'" + loan2.getText() + "'";
+            try (Connection connection = this.connect3();
+                 PreparedStatement preparedStatement = connection.prepareStatement(z)) {
+                resultSet = preparedStatement.executeQuery();
+                double sum = 0;
+                double e = 0;
+                if (resultSet.next()==false) {
+                    showAlert(Alert.AlertType.INFORMATION, "Information", "No results");
+                } else  {
+                    paymentresult.appendText("| loannumber   " + "| payment  " + "| date  |" + "\n");
+                    paymentresult.appendText("---------------------------------------");
+                    do {
+                        double d = Double.parseDouble(resultSet.getString(2));
+                        paymentresult.appendText("\n" + resultSet.getString(1) + "       |  " +
+                                resultSet.getString(2) + " |      " + resultSet.getString(3));
+                        sum = d + e;
+                        e = d;
+                        count++;
+                    } while (resultSet.next());
+                    totalp.setText(String.valueOf(sum));
+
+
+                }
+                resultSet = preparedStatement.executeQuery();
+                times.setText(String.valueOf(count));
+
+
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
+    }
+    public void paymentResetInquiry(){
+      loan2.clear();
+      times.clear();
+      totalp.clear();
+      paymentresult.clear();
+      fetchpayment.setDisable(false);
+      loan2.setDisable(false);
+    }
+
+    public String paymentnumber() {
+        int thecount=0;
+        ResultSet resultSet = null;
+        String mql="SELECT count(*) FROM ADVANCEPAYMENT where LOANNUMBER="+"'"+advanceloan.getText()+"'";
+        try (Connection connection = this.connect3()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(mql);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+               thecount = resultSet.getInt(1);
+                System.out.println(thecount);
+                System.out.println("ResultSet in empty in Java");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        String p = advanceloan.getText() + "/" + thecount;
+        return p;
+    }
+    public void editpaymentdelete() {
+        ResultSet resultSet = null;
+        if (loanpayment.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Payment number field is empty");
+        } else {
+
+            String d = "select * from ADVANCEPAYMENT WHERE paymentnumber=" + "'" + loanpayment.getText() + "'";
+            try (Connection connection = this.connect3()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(d);
+                resultSet = preparedStatement.executeQuery();
+                if (resultSet.next() == false) {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Incorrect payment number ");
+                } else {
+
+                    String f = resultSet.getString(7);
+                    if (f.equals("Inactive")) {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Deleted Payment");
+                    } else {
+                        editpayment.setText(resultSet.getString(2));
+                        editdate.setAccessibleText(resultSet.getString(3));
+                        System.out.println(f);
+                        loanpayment.setDisable(true);
+                        fetchpayment.setDisable(true);
+                        checkdelete.setDisable(false);
+                        checkedit.setDisable(false);
+                    }
+                }
+            } catch (SQLException e) {
+
+                e.getMessage();
+            }
+        }
+    }
+    public void keycheck() {
+        boolean a = checkedit.isSelected();
+        if (a = true) {
+            checkdelete.setSelected(false);
+        }
+    }
+    public void editcheck() {
+        if (checkedit.isSelected()) {
+            checkdelete.setDisable(true);
+            editdate.setDisable(false);
+            editpayment.setDisable(false);
+            paymentsubmit.setDisable(false);
+        } else if (checkdelete.isSelected()) {
+            checkedit.setDisable(true);
+            paymentsubmit.setDisable(false);
+        }
+    }
+
+    public void paysubmit() {
+        if (checkedit.isSelected()) {
+
+            ResultSet resultSet = null;
+            String ss = "SELECT * FROM ADVANCEPAYMENT WHERE paymentnumber=" + "'" + loanpayment.getText() + "'";
+            try (Connection connection = this.connect3();
+                 PreparedStatement preparedStatement = connection.prepareStatement(ss)) {
+                resultSet = preparedStatement.executeQuery();
+                String d = resultSet.getString(1);
+
+
+                ResultSet resultSet2 = null;
+                String p = "SELECT * FROM GRANTLOAN where LoanNumber=" + "'" + d + "'";
+                try (Connection connection1 = this.grantconnection();
+                     PreparedStatement preparedStatement1 = connection1.prepareStatement(p)) {
+                    resultSet2 = preparedStatement1.executeQuery();
+                    double a1 = Double.parseDouble(resultSet2.getString("partner1Fund"));
+                    double a2 = Double.parseDouble(resultSet2.getString("partner2Fund"));
+                    double b = (a1 + a2);
+                    double a = Double.parseDouble(editpayment.getText());
+
+                    String str = "UPDATE ADVANCEPAYMENT SET InterstAmount=" + "'" + editpayment.getText() + "'" + "," +
+                            "dateofpayment=" + "'" + editdate.getValue() + "'" + "," + "partner1=" + "'" + (a1 / b) * a + "'" + "," +
+                            "partner2=" + "'" + (a2 / b) * a + "'" +
+                            " WHERE paymentnumber=" + "'" + loanpayment.getText() + "'";
+                    try (Connection connection2 = this.connect3()) {
+                        PreparedStatement preparedStatement2 = connection2.prepareStatement(str);
+                        preparedStatement2.executeUpdate();
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                } catch (SQLException e) {
+                    e.getMessage();
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        } else if (checkdelete.isSelected()) {
+            String sz = "update ADVANCEPAYMENT SET status='Inactive' where paymentnumber=" + "'" + loanpayment.getText() + "'";
+            try (Connection connection4 = this.connect3()) {
+                PreparedStatement preparedStatement4 = connection4.prepareStatement(sz);
+                preparedStatement4.executeUpdate();
+                paymentsubmit.setDisable(true);
+                showAlert(Alert.AlertType.INFORMATION,"Information","Payment deleted");
+                loanpayment.clear();
+                editpayment.clear();
+
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        }
+    }
+    //*****************************New customer Registration**********************//
+    public void firstKeyRelease() {
+        firstnamefield.addEventFilter(KeyEvent.KEY_TYPED, evt -> {
+            if (" ".equals(evt.getCharacter())) {
+                System.out.println("spaced typed");
+                evt.consume();
+            }
+        });
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = firstnamefield.getText().length();
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (firstnamefield.getText().matches("[0-9]+")) {
+                                firstnamefield.clear();
+                                keyEvent.consume();
+                            } else if (length > 0) {
+                                String name = firstnamefield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        firstnamefield.addEventFilter(KeyEvent.ANY, handler);
+
+        return;
+    }
+    public void lastNameHandle(){
+        lastnamefield.addEventFilter(KeyEvent.KEY_TYPED, evt -> {
+            if (" ".equals(evt.getCharacter())) {
+                System.out.println("spaced typed");
+                evt.consume();
+            }
+        });
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = lastnamefield.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (lastnamefield.getText().matches("[0-9]+")) {
+                                lastnamefield.clear();
+                                keyEvent.consume();
+
+                            } else if (length > 0) {
+                                String name = lastnamefield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        lastnamefield.addEventFilter(KeyEvent.ANY, handler);
+
+        return;
+    }
+    public void cityHandle(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = cityfield.getText().length();
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (cityfield.getText().matches("[0-9]+")) {
+                                cityfield.clear();
+                                keyEvent.consume();
+                            } else if (length > 0) {
+                                String name = cityfield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        cityfield.addEventFilter(KeyEvent.ANY, handler);
+        return;
+    }
+
+    public void talukaHandle() {
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = talukafield.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (talukafield.getText().matches("[0-9]+")) {
+                                talukafield.clear();
+                                keyEvent.consume();
+                            } else if (length > 0) {
+                                String name = talukafield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        talukafield.addEventFilter(KeyEvent.ANY, handler);
+
+    }
+    public  void distHandleField(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = distfield.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (distfield.getText().matches("[0-9]+")) {
+                                distfield.clear();
+                                keyEvent.consume();
+
+                            } else if (length > 0) {
+                                String name = distfield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        distfield.addEventFilter(KeyEvent.ANY, handler);
+
+
+    }
+    public  void nameHandleField1(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = firstnames.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (firstnames.getText().matches("[0-9]+")) {
+                                firstnames.clear();
+                                keyEvent.consume();
+
+                            } else if (length > 0) {
+                                String name = firstnames.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        firstnames.addEventFilter(KeyEvent.ANY, handler);
+        return;
+
+    }
+    public  void nameHandleField2(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = lastnames.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (lastnames.getText().matches("[0-9]+")) {
+                                lastnames.clear();
+                                keyEvent.consume();
+
+                            } else if (length > 0) {
+                                String name = lastnames.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        lastnames.addEventFilter(KeyEvent.ANY, handler);
+        return;
+
+    }
+
+    public void handleKeyRelease3(){
+        String name=pincodefield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                pincodefield.clear();
+                break;
+            }
+        }
+    }
+    public void handleKeyRelease4(){
+        String name=phonenumberfield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                phonenumberfield.clear();
+                break;
+            }
+        }
+    }
+    //***************************************grant loan validation**************//
+    public void loanAmountHandle(){
+        String name=loanamountfield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                loanamountfield.setText("0");
+                loanamountfield.forward();
+                break;
+            }
+        }
+    }
+    public void rateHandle(){
+        String name=ratefield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                ratefield.setText("0");
+                ratefield.forward();
+                break;
+            }
+        }
+    }
+    public  void customerid(){
+        String name=editoption1.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                editoption1.clear();
+                break;
+            }
+        }
+    }
+    public  void advanceHandel(){
+        String name=advanceloan.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                advanceloan.clear();
+                break;
+            }
+        }
+    }
+    public  void advanceEditHandel(){
+        String name=loanpayment.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                loanpayment.clear();
+                break;
+            }
+        }
+    }
+    public  void advanceEnquiryHandel(){
+        String name=loan2.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                loan2.clear();
+                break;
+            }
+        }
+    }
+    public  void closeLoanHandel(){
+        String name=closefield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                closefield.clear();
+                break;
+            }
+        }
+    }
+    public  void customerid1(){
+        String name=customerid.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                customerid.clear();
+                break;
+            }
+        }
+
+    }public  void discriptHandleField2(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = descriptionfield.getText().length();
+
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (descriptionfield.getText().matches("[0-9]+")) {
+                                descriptionfield.clear();
+                                keyEvent.consume();
+
+                            } else if (length > 0) {
+                                String name = descriptionfield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        descriptionfield.addEventFilter(KeyEvent.ANY, handler);
+
+
+    }
+    public  void searchhandle(){
+        String name=phonenumbers.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                phonenumbers.clear();
+                break;
+            }
+        }
+
+    }
+    public  void editCustomerhandle(){
+        String name=editoption.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                editoption.clear();
+                break;
+            }
+        }
+
+    }
+}
