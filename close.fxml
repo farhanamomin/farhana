@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<DialogPane   xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.customerui.SQL"
+           maxWidth="600" maxHeight="600" style="-fx-background-color:fef6c7">
+    <content>
+
+
+    <GridPane alignment="CENTER" vgap="10" style="-fx-background-color:fef6c7">
+    <Label text="Customer Id*" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="editoption" onKeyTyped="#editCustomerhandle"
+GridPane.rowIndex="0" GridPane.columnIndex="1" />
+    <Button text="FETCH"  fx:id="fetch" GridPane.rowIndex="0" style="-fx-background-color:darkseagreen"
+            GridPane.columnIndex="2" onAction="#showDeleteFetch1"/>
+
+    <Label text="First Name" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="firstnamefield" disable="true"
+               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label text="Last Name" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    <TextField fx:id="lastnamefield" disable="true"
+               GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+    <Label text="Address" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Label text="House No" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <TextField fx:id="line1field"  GridPane.rowIndex="3"  disable="true" GridPane.columnIndex="1"/>
+    <Label text="Steet" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField  fx:id="line2field"  GridPane.rowIndex="4" disable="true" GridPane.columnIndex="1"/>
+    <Label text="Near Station" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="line3field" GridPane.rowIndex="5" disable="true" GridPane.columnIndex="1"/>
+
+    <Label text="City" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+    <TextField fx:id="cityfield"  disable="true"
+               GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+    <Label text="Taluka" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+    <TextField fx:id="talukafield"  disable="true"
+               GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+    <Label text="District" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+    <TextField fx:id="distfield"  disable="true"
+               GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+    <Label text="State" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+
+    <Label text="Country" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+
+
+    <Label text="Pincode" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+    <TextField fx:id="pincodefield"   disable="true"
+               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+    <Label text="Email Id" GridPane.rowIndex="7" GridPane.columnIndex="2"/>
+    <TextField fx:id="emailfield"   disable="true"
+               GridPane.rowIndex="7" GridPane.columnIndex="3"/>
+
+    <Label text="Country Code" GridPane.rowIndex="8" GridPane.columnIndex="0" />
+     <Label text="Mobile No." GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+    <TextField fx:id="phonenumberfield"   disable="true"
+               GridPane.rowIndex="8" GridPane.columnIndex="3"/>
+
+
+    <HBox GridPane.rowIndex="9"   GridPane.columnIndex="3">
+
+        <Button fx:id="delete" text="DELETE"  onAction="#delete" disable="true"
+                style="-fx-background-color:#d5f4e6" GridPane.columnIndex="2" GridPane.rowIndex="18" />
+         <Button fx:id="close" text="CLOSE" GridPane.columnIndex="3" style="-fx-background-color:#d5f4e6"
+                 GridPane.rowIndex="18" onAction="#closeButtonAction"/>
+    </HBox>
+        <TextField fx:id="statefield1" GridPane.rowIndex="6" GridPane.columnIndex="1" disable="true"/>
+        <TextField fx:id="countryfield1" GridPane.rowIndex="6" GridPane.columnIndex="3" disable="true"/>
+        <TextField fx:id="countrycodefield1"
+               GridPane.rowIndex="8" GridPane.columnIndex="1" disable="true"/>
+    </GridPane>
+    </content>
+</DialogPane>
+
+
