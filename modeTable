@@ -1,0 +1,119 @@
+package com.example.customerui;
+
+public class modelTable {
+    String REGNO, FirstName, LastName, phonenumber, LoanNumber, Loanamount, partner1Fund, partner2Fund, Rate, startDate, endDate, closed;
+    //************************constructor*****************************//
+    public modelTable(String REGNO, String firstName, String lastName,
+                      String phonenumber, String loanNumber, String loanamount,
+                      String partner1, String partner2, String rate,
+                      String startDate, String endDate, String closed) {
+        this.REGNO = REGNO;
+        FirstName = firstName;
+        LastName = lastName;
+        this.phonenumber = phonenumber;
+        LoanNumber = loanNumber;
+        Loanamount = loanamount;
+        this.partner1Fund = partner1;
+        this.partner2Fund = partner2;
+        Rate = rate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.closed = closed;
+    }
+    //*************************Getters  and Setters*****************************//
+    public String getClosed() {
+        return closed;
+    }
+
+    public void setClosed(String closed) {
+        this.closed = closed;
+    }
+
+    public String getREGNO() {
+        return REGNO;
+    }
+
+    public void setREGNO(String REGNO) {
+        this.REGNO = REGNO;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+
+    public String getLoanNumber() {
+        return LoanNumber;
+    }
+
+    public void setLoanNumber(String loanNumber) {
+        LoanNumber = loanNumber;
+    }
+
+    public String getLoanamount() {
+        return Loanamount;
+    }
+
+    public void setLoanamount(String loanamount) {
+        Loanamount = loanamount;
+    }
+
+    public String getRate() {
+        return Rate;
+    }
+
+    public void setRate(String rate) {
+        Rate = rate;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getPartner1() {
+        return partner1Fund;
+    }
+
+    public void setPartner1(String partner1) {
+        this.partner1Fund = partner1;
+    }
+
+    public String getPartner2() {
+        return partner2Fund;
+    }
+
+    public void setPartner2(String partner2) {
+        this.partner2Fund = partner2;
+    }
+}
