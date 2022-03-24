@@ -1,0 +1,326 @@
+package com.example.customerui;
+
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.layout.BorderPane;
+import java.io.IOException;
+import java.util.Optional;
+
+public class Contro {
+    @FXML
+    private BorderPane mainBorderPane;
+
+    //***************************Handel Exit*****************************//
+    @FXML
+    public void handleExit() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(" Cofirmation");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to Exit");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Platform.exit();
+        }
+        if (result.get() == ButtonType.CANCEL) {
+            alert.close();
+        }
+    }
+
+    //***************************Handel HELP*****************************//
+    @FXML
+    public void handleHelp(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Program Information");
+        alert.setHeaderText("Version 1.0");
+        alert.setContentText("Email us at kfarhanamomin95@gmail.com for any feedback/queries on this application");
+        alert.show();
+
+    }
+//***************************New Customer resgistration******************************//
+    public void showNewCustomerRegistration() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("New Customer Registration");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("newRegistration1.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //*************************Grant LOAN ***********************//
+    public void showGrantLoandialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Grant Loan");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("grantLoans.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+
+    //***************************Intrest Calculator****************************//
+    public void showInstertcaldialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Interest Calculator");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("interstCalculation.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+
+    //********************************Loan Close********************************//
+    public void showLoanCloseDialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Close Loan");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("closeLoan.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+
+    //***********************************Customer Inquiry*******************************//
+    public void showCustomerInquiry() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Inquiry Customer Information");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("customerInquiry.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //*************************************customer delete**************************//
+    public void showcustomerdelete() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Delete Customer Information");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("delete.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //************************Search*******************************//
+    public void showsearch() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Search Customer Information");
+        dialog.resizableProperty().asObject().set(true);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("Search2.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //********************************Edit Registration**************************//
+    public void showeditdialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Edit Customer Information");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("editcustomer.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //************************************Inquiry Loan***************************//
+    public void showInquiryLoanDialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Loan Inquiry");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("inquiryloans.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+
+    //***********************Delete Dialog*********************//
+    public void showLoanDeletedailog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Close Loan");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("deleteLoan.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result=dialog.showAndWait();
+
+    }
+    //******************************Edit Loans*********************//
+    public void showeditloandialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Edit Loan");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("editloans.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+    //****************************Advance payment**************************//
+    public void showadvancepayment() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Advance Payment");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("advance.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+    //*************************payment Inquiry******************************//
+    public void paymentinquiry(){
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Inquiry Payment");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("inquirypayment.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+    //*********************************Edit Payment***************************//
+    public void editpayment(){
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Edit/Delete Payment");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("editpayment.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+    }
+
+//********************************Reports***********************************************//
+    public void table(){
+    Dialog<ButtonType> dialog = new Dialog<>();
+    FXMLLoader loader = new FXMLLoader();
+    dialog.setTitle("Customer and Loan Information");
+    dialog.resizableProperty().asObject().set(false);
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    fxmlLoader.setLocation(getClass().getResource("table.fxml"));
+    try {
+        dialog.getDialogPane().setContent(fxmlLoader.load());
+    } catch (IOException e) {
+        System.out.println("Couldn't load the dialog");
+        e.printStackTrace();
+        return;
+    }
+    Optional<ButtonType> result = dialog.showAndWait();
+   }
+   //***************************************************************//
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
