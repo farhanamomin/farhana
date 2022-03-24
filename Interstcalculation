@@ -1,0 +1,149 @@
+package com.example.customerui;
+
+import javafx.event.EventType;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.time.Period;
+import java.util.Scanner;
+
+public class InterstCalcuation {
+    @FXML
+    private DatePicker startdate;
+    @FXML
+    private DatePicker enddate;
+    @FXML
+    private TextField loanamount;
+    @FXML
+    private TextField rate1;
+    @FXML
+    private TextField result;
+    private double intrest;
+    @FXML
+    private Button close;
+    @FXML
+    private Text total;
+
+//***********************LOAN FIELD HANDLE********************************//
+    public  void loanFieldHandle(){
+        EventType<KeyEvent> keyEventEventType;
+        Scanner keyboard=new Scanner(System.in);
+        String name=loanamount.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                loanamount.clear();
+                break;
+            }
+        }
+
+    }
+    //*********************RATE FIELD HANDLE*******************************//
+    public  void rateFieldHandle(){
+        EventType<KeyEvent>keyEventEventType;
+        Scanner keyboard=new Scanner(System.in);
+        String name=rate1.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                rate1.clear();
+                break;
+            }
+        }
+
+    }
+//***********************Interest Calculation********************************//
+    @FXML
+    private RadioButton customize;
+    @FXML
+    private RadioButton standard;
+
+    public void interstCalcualtions() {
+        if (customize.isSelected()) {
+
+            total.setDisable(false);
+            Period differnce = Period.between(startdate.getValue(), enddate.getValue());
+            int year = differnce.getYears();
+            int month = differnce.getMonths();
+            int days = (differnce.getDays()) + 1;
+            double loanAmount = Double.parseDouble(loanamount.getText());
+            double rate = Double.parseDouble(rate1.getText());
+            total.setText(year + "Years  " + month + "Month  " + (days - 1) + "Days");
+            if (year == 0) {
+                if (days <= 7) {
+                    intrest = (loanAmount * (rate) * month) / 100;
+                } else if (days > 7 && days <= 21) {
+                    intrest = ((loanAmount) * (rate) * (month + 0.5)) / 100;
+                } else if (days > 21) {
+                    intrest = (loanAmount * (rate) * (month + 1)) / 100;
+                }
+            } else if (year != 0) {
+                if (days <= 7) {
+                    double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                    double monthcal = (loanAmount * rate * month) / 100;
+                    intrest = Math.round(yearcal + monthcal);
+                } else if (days > 7 && days <= 21) {
+                    double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                    double monthcal = loanAmount * rate * (month + 0.5) / 100;
+                    intrest = Math.round(yearcal + monthcal);
+
+                } else if (days > 21) {
+                    double yearcal = (loanAmount * (rate * 12) * year) / 100;
+                    double monthcal = (loanAmount * rate * (month + 1)) / 100;
+                    intrest =Math.round(yearcal + monthcal);
+
+                }
+            }
+            result.setText(String.valueOf(intrest));
+
+        } else if (standard.isSelected()) {
+
+            standard();
+        }
+    }
+    //*****************************CLOSE BUTTON ACTION************************//
+    @FXML
+    public void closeButtonAction() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
+    }
+    //**********************CALCULATION RESET***********************************//
+    public  void resetCalculation(){
+       loanamount.clear();
+       rate1.clear();
+       result.clear();
+       startdate.getEditor().clear();
+       enddate.getEditor().clear();
+       total.setText("");
+    }
+    //***********************************Standard calculation***************************************//
+    public void standard(){
+    total.setDisable(false);
+    Period differnce = Period.between(startdate.getValue(), enddate.getValue());
+    int year = differnce.getYears();
+    int month = differnce.getMonths();
+    int days = (differnce.getDays()) + 1;
+    double loanAmount = Double.parseDouble(loanamount.getText());
+    double rate = Double.parseDouble(rate1.getText());
+        total.setText(year + "Years  " + month + "Month  " + (days - 1) + "Days");
+        if (year == 0) {
+            double day=(loanAmount*(rate)*(days*0.032855))/100;
+            double mon=(loanAmount * (rate) * month) / 100;
+            intrest = Math.round(day+mon);
+
+        } else if (year != 0) {
+            double day=(loanAmount*(rate)*(days*0.032855))/100;
+            double yearcal = (loanAmount * (rate * 12) * year) / 100;
+            double monthcal = (loanAmount * rate * month) / 100;
+            intrest = Math.round(yearcal + monthcal+day);
+        }
+       result.setText(String.valueOf(intrest));
+
+}
+}
+
+
