@@ -1,0 +1,501 @@
+package com.example.customerui;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.*;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
+
+public class Tableview implements Initializable {
+    @FXML
+    private TableView<modelTable> tables;
+    @FXML
+    private TableColumn<modelTable, String> REGNO;
+    @FXML
+    private TableColumn<modelTable, String> FirstName;
+    @FXML
+    private TableColumn<modelTable, String> LastName;
+    @FXML
+    private TableColumn<modelTable, String> LoanNumber;
+    @FXML
+    private TableColumn<modelTable, String> LoanAmount;
+    @FXML
+    private TableColumn<modelTable, String> partner1;
+    @FXML
+    private TableColumn<modelTable, String> partner2;
+
+    @FXML
+    private TableColumn<modelTable, String> startDate;
+    @FXML
+    private TableColumn<modelTable, String> Rate;
+    @FXML
+    private TableColumn<modelTable, String> closed;
+    @FXML
+    private TableColumn<modelTable, String> endDate;
+    @FXML
+    private TableColumn<modelTable, String> phonenumber;
+    @FXML
+    private ComboBox sts;
+    @FXML
+    private Button close;
+    @FXML
+    private Text tm;
+    @FXML
+    public TextField text;
+    @FXML
+    private TextField ta;
+    @FXML
+    private TextField pa1;
+    @FXML
+    private Text part1;
+    @FXML
+    private TextField pa2;
+    @FXML
+    private Text part2;
+    ObservableList<modelTable> oblist = FXCollections.observableArrayList();
+
+
+    public Connection connect() {
+        String url = "jdbc:sqlite:C:/Users/khali/Desktop/1/CUSNEW.db";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection;
+    }
+
+    @FXML
+    public void closeButtonAction() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
+    }
+
+    public Connection grantconnection() {
+        String s = "jdbc:sqlite:C:/Users/khali/Desktop/1/Grantloan2.db";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(s);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection;
+    }
+
+    public void visibletrue() {
+        pa1.visibleProperty().set(true);
+        part1.visibleProperty().set(true);
+        pa2.visibleProperty().set(true);
+        part2.visibleProperty().set(true);
+        ta.visibleProperty().set(true);
+        tm.visibleProperty().set(true);
+
+    }
+
+    public void visiblefalse() {
+        pa1.visibleProperty().set(false);
+        part1.visibleProperty().set(false);
+        pa2.visibleProperty().set(false);
+        part2.visibleProperty().set(false);
+        ta.visibleProperty().set(false);
+        tm.visibleProperty().set(false);
+    }
+
+    public void tableList() {
+        REGNO.setCellValueFactory(new PropertyValueFactory<>("REGNO"));
+        FirstName.setCellValueFactory(new PropertyValueFactory<>("FirstName"));
+        LastName.setCellValueFactory(new PropertyValueFactory<>("LastName"));
+        phonenumber.setCellValueFactory(new PropertyValueFactory<>("phonenumber"));
+        LoanNumber.setCellValueFactory(new PropertyValueFactory<>("LoanNumber"));
+        LoanAmount.setCellValueFactory(new PropertyValueFactory<>("Loanamount"));
+        partner1.setCellValueFactory(new PropertyValueFactory<>("partner1"));
+        partner2.setCellValueFactory(new PropertyValueFactory<>("partner2"));
+        Rate.setCellValueFactory(new PropertyValueFactory<>("Rate"));
+        startDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDate.setCellValueFactory(new PropertyValueFactory<>("EndDate"));
+        closed.setCellValueFactory(new PropertyValueFactory<>("closed"));
+        tables.setItems(oblist);
+        FilteredList<modelTable> filteredList = new FilteredList<>(oblist);
+        tables.setItems(filteredList);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        visibletrue();
+        double sum = 0;
+        double f = 0;
+        double sum1 = 0;
+        double p1 = 0;
+        double sum2 = 0;
+        double p2 = 0;
+
+        oblist.clear();
+        ResultSet rs2 = null;
+        String sql = "select * from GRANTLOAN  where closed='NO'";
+        try (Connection connection = this.grantconnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            rs2 = preparedStatement.executeQuery();
+            while (rs2.next()) {
+                System.out.println("done");
+                String w = rs2.getString("REGNO");
+                System.out.println(w);
+                do {
+                    double d1 = Double.parseDouble(rs2.getString("partner1Fund"));
+                    sum1 = p1 + d1;
+                    p1 = sum1;
+                    //********************//
+                    double d2 = Double.parseDouble(rs2.getString("partner2Fund"));
+                    sum2 = p2 + d2;
+                    p2 = sum2;
+                    double d = Double.parseDouble((rs2.getString("LoanAmount")));
+                    System.out.println(d);
+                    sum = f + d;
+                    f = sum;
+                    ResultSet rs1 = null;
+                    String s = "select * from CUSTOMERDETAILS WHERE REGNO=" + "'" + w + "'";
+                    try (Connection c = this.connect();
+                         PreparedStatement preparedStatement1 = c.prepareStatement(s)) {
+                        rs1 = preparedStatement1.executeQuery();
+                        oblist.add(new modelTable
+                                (rs1.getString("REGNO"),
+                                        rs1.getString("FirstName"),
+                                        rs1.getString("LastName"),
+                                        rs1.getString("phonenumber"),
+                                        rs2.getString("LoanNumber"),
+                                        rs2.getString("LoanAmount"),
+                                        rs2.getString("partner1Fund"),
+                                        rs2.getString("partner2Fund"),
+                                        rs2.getString("Rate"),
+                                        rs2.getString("startDate"),
+                                        rs2.getString("endDate"),
+                                        rs2.getString("closed")));
+                    } catch (SQLException e) {
+                        e.getMessage();
+                    }
+                } while (rs2.next() == true);
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+
+        DecimalFormat s = new DecimalFormat(".00");
+        sum = Math.round(sum);
+        String s1 = s.format(sum);
+        ta.setText(String.valueOf(s1));
+        sum1 = Math.round(sum1);
+        String s2 = s.format(sum1);
+        sum2 = Math.round(sum2);
+        String s3 = s.format(sum2);
+        pa1.setText(s2);
+        pa2.setText(s3);
+        tableList();
+    }
+
+    public void select1() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+        oblist.clear();
+        if (sts.getValue().equals("Closed")) {
+            ResultSet rs2 = null;
+            visibletrue();
+            double sum = 0;
+            double f = 0;
+            double sum1 = 0;
+            double p1 = 0;
+            double sum2 = 0;
+            double p2 = 0;
+
+            String sql = "select * from GRANTLOAN  where closed='YES'";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                rs2 = preparedStatement.executeQuery();
+//                while (rs2.next()) {
+                if(rs2.next()==false){
+
+                }else {
+
+                    do {
+                        String w = rs2.getString("REGNO");
+                        System.out.println(w);
+                        double d1 = Double.parseDouble(rs2.getString("partner1Fund"));
+                        sum1 = p1 + d1;
+                        p1 = sum1;
+                        //********************//
+                        double d2 = Double.parseDouble(rs2.getString("partner2Fund"));
+                        sum2 = p2 + d2;
+                        p2 = sum2;
+                        //********************//
+                        double d = Double.parseDouble((rs2.getString("LoanAmount")));
+                        System.out.println(d);
+                        sum = f + d;
+                        f = sum;
+                        ResultSet rs1 = null;
+
+                        String s = "select * from CUSTOMERDETAILS WHERE REGNO=" + "'" + w + "'";
+                        try (Connection c = this.connect();
+                             PreparedStatement preparedStatement1 = c.prepareStatement(s)) {
+                            rs1 = preparedStatement1.executeQuery();
+                            oblist.add(new modelTable(rs1.getString("REGNO"),
+                                    rs1.getString("FirstName"),
+                                    rs1.getString("LastName"),
+                                    rs1.getString("phonenumber"),
+                                    rs2.getString("LoanNumber"),
+                                    rs2.getString("LoanAmount"),
+                                    rs2.getString("partner1Fund"),
+                                    rs2.getString("partner2Fund"),
+                                    rs2.getString("Rate"),
+                                    rs2.getString("startDate"),
+                                    rs2.getString("endDate"),
+                                    rs2.getString("closed")));
+
+                        } catch (SQLException e) {
+
+                        }
+
+
+                    } while (rs2.next() == true);
+
+                }
+            } catch (SQLException e) {
+
+            }
+            DecimalFormat s = new DecimalFormat(".00");
+            String s1 = s.format(sum);
+            ta.setText(String.valueOf(s1));
+            String s2 = s.format(sum1);
+            pa1.setText(String.valueOf(s2));
+            String s3 = s.format(sum2);
+            pa2.setText(s3);
+            tableList();
+        } else if (sts.getValue().equals("Not Closed")) {
+            visibletrue();
+//            double sum = 0;
+//            double f = 0;
+//            double sum1 = 0;
+//            double p1 = 0;
+//            double sum2 = 0;
+//            double p2 = 0;
+            double sum = 0;
+            double f = 0;
+            double sum1 = 0;
+            double p1 = 0;
+            double sum2 = 0;
+            double p2 = 0;
+            oblist.clear();
+            ResultSet rs2 = null;
+            String sql = "select * from GRANTLOAN  where closed='NO'";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                rs2 = preparedStatement.executeQuery();
+                if(rs2.next()==false){
+
+                }else {
+
+                    do {
+                        String w = rs2.getString("REGNO");
+                        System.out.println(w);
+                        double d1 = Double.parseDouble(rs2.getString("partner1Fund"));
+                        sum1 = p1 + d1;
+                        p1 = sum1;
+                        //********************//
+                        double d2 = Double.parseDouble(rs2.getString("partner2Fund"));
+                        sum2 = p2 + d2;
+                        p2 = sum2;
+                        //********************//
+                        double d = Double.parseDouble((rs2.getString("LoanAmount")));
+                        System.out.println(d);
+                        sum = f + d;
+                        f = sum;
+                        ResultSet rs1 = null;
+
+                        String s = "select * from CUSTOMERDETAILS WHERE REGNO=" + "'" + w + "'";
+                        try (Connection c = this.connect();
+                             PreparedStatement preparedStatement1 = c.prepareStatement(s)) {
+                            rs1 = preparedStatement1.executeQuery();
+                            oblist.add(new modelTable(rs1.getString("REGNO"),
+                                    rs1.getString("FirstName"),
+                                    rs1.getString("LastName"),
+                                    rs1.getString("phonenumber"),
+                                    rs2.getString("LoanNumber"),
+                                    rs2.getString("LoanAmount"),
+                                    rs2.getString("partner1Fund"),
+                                    rs2.getString("partner2Fund"),
+                                    rs2.getString("Rate"),
+                                    rs2.getString("startDate"),
+                                    rs2.getString("endDate"),
+                                    rs2.getString("closed")));
+
+                        } catch (SQLException e) {
+
+                        }
+
+
+                    } while (rs2.next() == true);
+
+                }
+            } catch (SQLException e) {
+
+            }
+            DecimalFormat s = new DecimalFormat(".00");
+            String s1 = s.format(sum);
+            ta.setText(String.valueOf(s1));
+            String s2 = s.format(sum1);
+            pa1.setText(String.valueOf(s2));
+            String s3 = s.format(sum2);
+            pa2.setText(s3);
+            tableList();
+
+
+        } else if (sts.getValue().equals("All")) {
+            visiblefalse();
+            oblist.clear();
+            ResultSet rs2 = null;
+
+
+            String sql = "select * from GRANTLOAN where closed in('YES','NO')";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                rs2 = preparedStatement.executeQuery();
+
+                while (rs2.next()) {
+                    System.out.println("done");
+                    String w = rs2.getString("REGNO");
+                    System.out.println(w);
+                    ResultSet rs1 = null;
+                    String s = "select * from CUSTOMERDETAILS WHERE REGNO=" + "'" + w + "'";
+                    try (Connection c = this.connect();
+                         PreparedStatement preparedStatement1 = c.prepareStatement(s)) {
+                        rs1 = preparedStatement1.executeQuery();
+                        oblist.add(new modelTable(rs1.getString("REGNO"),
+                                rs1.getString("FirstName"),
+                                rs1.getString("LastName"),
+                                rs1.getString("phonenumber"),
+                                rs2.getString("LoanNumber"),
+                                rs2.getString("LoanAmount"),
+                                rs2.getString("partner1Fund"),
+                                rs2.getString("partner2Fund"),
+                                rs2.getString("Rate"),
+                                rs2.getString("startDate"),
+                                rs2.getString("endDate"),
+                                rs2.getString("closed")));
+
+
+                    } catch (SQLException e) {
+                        e.getMessage();
+                    }
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+            tableList();
+            tables.setItems(oblist);
+            FilteredList<modelTable> filteredList = new FilteredList<>(oblist);
+            tables.setItems(filteredList);
+        } else if (sts.getValue().equals("Inactive")) {
+            visiblefalse();
+            oblist.clear();
+            ResultSet rs2 = null;
+            String sql = "select * from GRANTLOAN  where closed not in('YES','NO')";
+            try (Connection connection = this.grantconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                rs2 = preparedStatement.executeQuery();
+                while (rs2.next()) {
+
+                    String w = rs2.getString("REGNO");
+
+                    ResultSet rs1 = null;
+                    String s = "select * from CUSTOMERDETAILS WHERE REGNO=" + "'" + w + "'";
+                    try (Connection c = this.connect();
+                         PreparedStatement preparedStatement1 = c.prepareStatement(s)) {
+                        rs1 = preparedStatement1.executeQuery();
+                        oblist.add(new modelTable(rs1.getString("REGNO"),
+                                rs1.getString("FirstName"),
+                                rs1.getString("LastName"),
+                                rs1.getString("phonenumber"),
+                                rs2.getString("LoanNumber"),
+                                rs2.getString("LoanAmount"),
+                                rs2.getString("partner1Fund"),
+                                rs2.getString("partner2Fund"),
+                                rs2.getString("Rate"),
+                                rs2.getString("startDate"),
+                                rs2.getString("endDate"),
+                                rs2.getString("closed")));
+                    } catch (SQLException e) {
+                        e.getMessage();
+                    }
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+
+            tableList();
+        }
+    }
+    public void xcel() throws IOException {
+       HSSFWorkbook workbook = new HSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Custloan_info");
+        Row row = sheet.createRow(0);
+        for (int j = 0; j < tables.getColumns().size(); j++) {
+            row.createCell(j).setCellValue(tables.getColumns().get(j).getText());
+        }
+        for (int i = 0; i < tables.getItems().size(); i++) {
+            row = sheet.createRow(i + 1);
+            for (int j = 0; j < tables.getColumns().size(); j++) {
+                if (tables.getColumns().get(j).getCellData(i) != null) {
+                    row.createCell(j).setCellValue(tables.getColumns().get(j).getCellData(i).toString());
+                } else {
+                    row.createCell(j).setCellValue("");
+                }
+            }
+        }
+        try {
+            FileChooser fileChooser=new FileChooser();
+            fileChooser.setTitle("Save File");
+            LocalDateTime localDateTime=LocalDateTime.now();
+            String d="loaninformation"+localDateTime.getDayOfMonth()+localDateTime.getMonth()+localDateTime.getYear()+
+                    localDateTime.getHour()+localDateTime.getMinute();
+              fileChooser.setInitialFileName(d+".xls");
+              fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Exel Workbook(*.xlsx)","*.xlsx"));
+            File file=fileChooser.showSaveDialog(tables.getScene().getWindow());
+//            if(!file.getName().contains(".")){
+//                file=new File(file.getAbsolutePath()+".xlsx");
+//            }
+            try{
+            FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath());
+            workbook.write(fileOutputStream);
+            fileOutputStream.close();
+        } catch(NullPointerException e) {
+//            System.out.println(e.getMessage());
+
+
+        }
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }
+
+    }
+}
+
+
+
+
+
+
+
