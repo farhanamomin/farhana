@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"  maxWidth="600" maxHeight="600"
+            style="-fx-background-color:fef6c7">
+
+    <content>
+        <VBox style="-fx-background-color:fef6c7">
+<GridPane hgap="10" vgap="10" style="-fx-background-color:fef6c7">
+    <Label text="Customer Id*" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="editoption" onKeyTyped="#editCustomerhandle" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+    <Button text="FETCH" style="-fx-background-color:darkseagreen"
+            fx:id="fetch1" GridPane.rowIndex="0" GridPane.columnIndex="2"
+            onAction="#showInquiryFetch"/>
+
+    <Label text="First Name" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="firstnamefield" disable="true"
+               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+    <Label text="Last Name" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    <TextField fx:id="lastnamefield" disable="true" maxWidth="170"
+               GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+    <Label text="Address" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <Label text="House No" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <TextField fx:id="line1field"  disable="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Label text="Steet" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField  fx:id="line2field"  GridPane.rowIndex="4" disable="true" GridPane.columnIndex="1"/>
+    <Label text="Near Station" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+    <TextField fx:id="line3field" GridPane.rowIndex="5" disable="true" GridPane.columnIndex="1"/>
+
+    <Label text="City" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+    <TextField fx:id="cityfield" maxWidth="170"  disable="true"
+               GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+    <Label text="Taluka" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+    <TextField fx:id="talukafield" maxWidth="170"  disable="true"
+               GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+    <Label text="District" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+    <TextField fx:id="distfield" maxWidth="170"  disable="true"
+               GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+    <Label text="State" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+
+    <Label text="Country" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+
+
+    <Label text="Pincode" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+    <TextField fx:id="pincodefield"   disable="true"
+               GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+    <Label text="Email Id" GridPane.rowIndex="7" GridPane.columnIndex="2"/>
+    <TextField fx:id="emailfield"  maxWidth="170"  disable="true"
+               GridPane.rowIndex="7" GridPane.columnIndex="3"/>
+
+    <Label text="Phone No" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+    <Label text="Country Code" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+    <Label text="Status" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+    <TextField  fx:id="inquirystatus" GridPane.rowIndex="9"  disable="true" GridPane.columnIndex="1"/>
+
+    <TextField fx:id="phonenumberfield"  maxWidth="170"  disable="true"
+               GridPane.rowIndex="8" GridPane.columnIndex="3"/>
+
+
+    <HBox GridPane.rowIndex="10" GridPane.columnIndex="3"  >
+
+        <Button fx:id="reset" GridPane.rowIndex="9" maxWidth="100" GridPane.columnIndex="3"
+                style="-fx-background-color:#d5f4e6"
+                text="RESET" onAction="#customerInquiryReset"/>
+<Button fx:id="close" text="CLOSE" GridPane.rowIndex="18" maxWidth="100" GridPane.columnIndex="3"
+                style="-fx-background-color:#d5f4e6"
+                onAction="#closeButtonAction"/>
+ </HBox>
+<TextField  fx:id="statefield1" GridPane.rowIndex="6" GridPane.columnIndex="1" disable="true"/>
+
+    <TextField fx:id="countryfield1" GridPane.rowIndex="6" maxWidth="170" GridPane.columnIndex="3"  disable="true" />
+
+
+    <TextField  fx:id="countrycodefield1"   disable="true"
+               GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+</GridPane>
+        </VBox>
+    </content>
+
+
+</DialogPane>
+
