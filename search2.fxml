@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity"
+           maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0"
+           xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.example.customerui.SQL" style="-fx-background-color:fef6c7">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Label layoutX="21.0" layoutY="26.0" text="First Name" />
+            <Label layoutX="21.0" layoutY="68.0" text="Mobile No." />
+            <TextField fx:id="firstnames" onKeyTyped="#nameHandleField1" layoutX="90.0" layoutY="22.0" />
+            <TextField fx:id="phonenumbers" onKeyTyped="#searchhandle" layoutX="90.0" layoutY="64.0" />
+            <Label layoutX="277.0" layoutY="26.0" text="Last Name" />
+            <Label layoutX="277.0" layoutY="68.0" text="Reg No." />
+            <TextField  fx:id="lastnames" onKeyTyped="#nameHandleField2" layoutX="345.0" layoutY="22.0" />
+            <TextField fx:id="customerid" onKeyTyped="#customerid1" layoutX="345.0" layoutY="64.0" />
+            <Button layoutX="74.0" layoutY="120.0" mnemonicParsing="false"
+                    text="SEARCH" onAction="#searchcustomers" style="-fx-background-color:#d5f4e6"/>
+            <Button layoutX="140.0" layoutY="120.0" mnemonicParsing="false"
+                    text="RESET" onAction="#searchReset" style="-fx-background-color:#d5f4e6"/>
+            <Button layoutX="194.0" layoutY="120.0" mnemonicParsing="false"
+                    text="CLOSE" fx:id="close" onAction="#closeButtonAction" style="-fx-background-color:#d5f4e6"/>
+            <Label layoutX="21.0" layoutY="165.0" text="*Search with atleast one field" />
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TableView fx:id="table"  layoutY="-2.0" prefHeight="200.0" prefWidth="598.0">
+              <columns>
+                <TableColumn prefWidth="104.0" text="Reg No." fx:id="REGNO" />
+                <TableColumn prefWidth="82.0" text="FirstName" fx:id="FirstName"/>
+                  <TableColumn prefWidth="85.0" text="LastName" fx:id="LastName" />
+                  <TableColumn prefWidth="99.0" text="City"  fx:id="address"/>
+                  <TableColumn prefWidth="108.0" text="Mobile No." fx:id="phonenumber"/>
+                  <TableColumn prefWidth="100.0" text="Status" fx:id="status"/>
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
