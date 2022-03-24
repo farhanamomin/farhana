@@ -1,0 +1,262 @@
+package com.example.customerui;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.Optional;
+
+public class AdminController {
+    @FXML
+    private TextField actiontarget;
+    @FXML
+    private TextField username;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private Text showtext;
+    @FXML
+    private Button button;
+    private BorderPane root;
+
+
+    public void keyreleaseproperty() {
+        String us = username.getText();
+        String pass = passwordField.getText();
+        boolean isdisable = (us.isEmpty() || us.trim().isEmpty() || pass.isEmpty() || pass.trim().isEmpty());
+        button.setDisable(isdisable);
+    }
+
+    @FXML
+    protected void handleSubmitButtonAction(ActionEvent event) {
+        if (username.getText().equals("1234")) {
+            if ((passwordField.getText().equals("1234"))) {
+                System.out.println("login sucessfull");
+                Stage stage = (Stage) button.getScene().getWindow();
+                stage.close();
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("start.fxml"));
+                Scene scene = null;
+                try {
+                    scene = new Scene(fxmlLoader.load(), 600, 370);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                stage = new Stage();
+                stage.setTitle("Welcome to kusIda");
+                stage.setScene(scene);
+                stage.show();
+            } else {
+
+                System.out.println("wrong password");
+                showtext.setText("WRONG PASSWORD");
+                return;
+            }
+        } else {
+            System.out.println("wrong username");
+            showtext.setText("WRONG USERNAME");
+            return;
+        }
+    }
+
+    public void sub() {
+        button.setDisable(button.isDisable());
+    }
+
+    public Connection connect4() {
+        String url = "jdbc:sqlite:C:/Users/khali/Desktop/1/signup.db";
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(url);
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return connection;
+    }
+
+    public void showsignup() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Sign Up");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("signup.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+
+    public void showadminpass() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        FXMLLoader loader = new FXMLLoader();
+        dialog.setTitle("Sign Up");
+        dialog.resizableProperty().asObject().set(false);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("adminpass.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+        Optional<ButtonType> result = dialog.showAndWait();
+
+    }
+
+    @FXML
+    private TextField user;
+
+    public void signup() {
+        showadminpass();
+
+
+    }
+
+    public void submitpass() {
+        user.setText("farhana");
+
+        ResultSet resultSet = null;
+        System.out.println("********************");
+        String s = "select * from sign where userId='admin'";
+        try (Connection connection = this.connect4()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(s);
+            resultSet = preparedStatement.executeQuery();
+            System.out.println("ooooooooooooooooooo");
+            String s1 = resultSet.getString(3);
+            System.out.println(s1);
+            if (user.getText().equals(s1)) {
+                Stage stage = (Stage) disbutton.getScene().getWindow();
+                stage.close();
+                showsignup();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Wrong Admin Password");
+            }
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+
+
+    }
+
+    public void showAlert(Alert.AlertType alertType, String title, String message) {
+        Dialog dialog = new Dialog<>();
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+
+    @FXML
+    private TextField username1;
+    @FXML
+    private TextField user2;
+    @FXML
+    private TextField pas1;
+    @FXML
+    private TextField pas2;
+
+
+    @FXML
+    private Button disbutton;
+
+    @FXML
+    private Button close;
+
+    public void closeButtonAction() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private TextField mobile;
+
+    public void insert() {
+        ResultSet resultSet = null;
+        String sql = "INSERT INTO sign(username,userId,password,organization,mobileno,date,active,technicaluser) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
+        try (Connection connection = this.connect4();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, username1.getText());
+            preparedStatement.setString(2, user.getText());
+            preparedStatement.setString(3, pas1.getText());
+            preparedStatement.setString(4, pas2.getText());
+            preparedStatement.setString(5, mobile.getText());
+            LocalDate localDate = LocalDate.now();
+            preparedStatement.setString(6, localDate.getYear() + "/" + localDate.getMonth() + "/" +
+                    localDate.getDayOfMonth());
+            preparedStatement.setString(7, "YES");
+            preparedStatement.setString(8, "NO");
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.getMessage();
+        }
+    }
+
+    public void login() {
+        ResultSet resultSet = null;
+        username.setText("farhana");
+        passwordField.setText("admin");
+        if ((username.getText().isEmpty()) && (passwordField.getText().isEmpty())) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Fields are empty");
+        }else if(username.getText().isEmpty()){
+            showAlert(Alert.AlertType.ERROR,"Error","Username field is empty");
+        }else if(passwordField.getText().isEmpty()){
+            showAlert(Alert.AlertType.ERROR,"Error","Password Field is empty");
+        } else {
+            String s = "select * from sign where username=" + "'" + username.getText() + "'";
+            try (Connection connection = this.connect4()) {
+                PreparedStatement preparedStatement = connection.prepareStatement(s);
+                resultSet = preparedStatement.executeQuery();
+                if(resultSet.next()==true) {
+                    String s1 = resultSet.getString("password");
+                    if (passwordField.getText().equals(s1)) {
+                        Stage stage = (Stage) button.getScene().getWindow();
+                        stage.close();
+                        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("start.fxml"));
+                        Scene scene = null;
+                        try {
+                            scene = new Scene(fxmlLoader.load(), 600, 370);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        stage = new Stage();
+                        stage.setTitle("Welcome to kusIda");
+                        stage.setScene(scene);
+                        stage.show();
+
+                    } else {
+                        showAlert(Alert.AlertType.ERROR, "Error", "Incorrect User ID or Password");
+                        return;
+                    }
+                }else{
+                showAlert(Alert.AlertType.ERROR,"Error","Incorrect User ID or Password");
+
+                }
+            } catch (SQLException e) {
+                e.getMessage();
+            }
+        }
+    }
+}
+
+
+
+
+
