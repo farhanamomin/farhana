@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:fef6c7" >
+    <headerText>
+
+    </headerText>
+    <content>
+        <VBox maxWidth="150" style="-fx-background-color:fef6c7"  >
+            <GridPane vgap="10"  >
+                <Label text="Loan Number* " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="editoption1" onKeyTyped="#customerid" GridPane.rowIndex="0"  GridPane.columnIndex="1" />
+                <Button text="FETCH" GridPane.rowIndex="0" GridPane.columnIndex="2"
+                        style="-fx-background-color:darkseagreen" onAction="#inquiryLoan"/>
+
+                 <Text text="Name" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="inquiryname" disable="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Text text="Phone No" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField  fx:id="inquiryphone"  disable="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Text text="City" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="inquirycity" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Text text="Interest" GridPane.rowIndex="4"  GridPane.columnIndex="0"/>
+                <TextField fx:id="inquiryint"  disable="true" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Text text="End Date" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="inquiryend" disable="true" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Text text="Colletral Value" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                <TextField fx:id="collet" disable="true" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+
+                <Text text="Loan Amount" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="inquiryloanamtoun" disable="true" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                <Text text="Rate/Month" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <TextField fx:id="rateinquiry" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                <Text text="Date of Loan" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                <TextField fx:id="dateofinquiry" disable="true" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+                <Text text="Closed" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+                <TextField fx:id="closeinquiry" disable="true"  GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+                <Button fx:id="close" text="CLOSE" GridPane.rowIndex="6" GridPane.columnIndex="3"
+                        style="-fx-background-color:#d5f4e6"
+                        onAction="#closeButtonAction"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </GridPane>
+        </VBox>
+    </content>
+
+
+
+</DialogPane>
+
+<!--    <content>-->
+<!--        <VBox>-->
+<!--&lt;!&ndash;            <VBox style="-fx-background-color:white"  maxWidth="350">&ndash;&gt;-->
+<!--                <GridPane hgap="50" style="-fx-background-color:white" maxWidth="350" >-->
+
+<!--                <Label text="Loan Number* " GridPane.rowIndex="1" GridPane.columnIndex="0">-->
+<!--                    <font>-->
+<!--                        <Font name="System Arial Narrow" size="16"/>-->
+<!--                    </font>-->
+<!--                </Label>-->
+<!--                <TextField fx:id="editoption1" GridPane.rowIndex="2" GridPane.columnIndex="0" />-->
+<!--                <Button text="FETCH" fx:id="fetch" onAction="#editLoansfetch" GridPane.columnIndex="1" GridPane.rowIndex="2" />-->
+
+<!--                <Label text="Loan Amount" GridPane.rowIndex="4" GridPane.columnIndex="3"/>-->
+<!--                <TextField fx:id="loanamountfield"  disable="true" maxWidth="100"-->
+<!--                           onKeyReleased="#updategrantbutton" GridPane.rowIndex="5" GridPane.columnIndex="3"/>-->
+<!--                <Label text="Colleteral Value" GridPane.rowIndex="4" GridPane.columnIndex="0"/>-->
+<!--                <TextField fx:id="collerralVfield" disable="true" maxWidth="100" GridPane.rowIndex="5" GridPane.columnIndex="0"/>-->
+<!--                <Label text="Rate(%)/Month"   GridPane.rowIndex="4" GridPane.columnIndex="1"/>-->
+<!--                <TextField fx:id="ratefield" disable="true" maxWidth="100" GridPane.rowIndex="5" GridPane.columnIndex="1"/>-->
+<!--                <Label text="Items" GridPane.rowIndex="6" GridPane.columnIndex="0"/>-->
+
+<!--                <TextField  disable="true" maxWidth="150" GridPane.rowIndex="7" GridPane.columnIndex="0"/>-->
+
+
+<!--                <Label text="DESCRIPTION"  GridPane.rowIndex="6" GridPane.columnIndex="1"/>-->
+<!--                <TextArea fx:id="descriptionfield" disable="true" maxWidth="70" maxHeight="30"-->
+<!--                          GridPane.rowIndex="7" GridPane.columnIndex="1"/>-->
+<!--                <Label text="Date of Loan" GridPane.rowIndex="8" GridPane.columnIndex="0"/>-->
+<!--                <DatePicker fx:id="dateofloans" disable="true" GridPane.rowIndex="9" GridPane.columnIndex="0"/>-->
+
+<!--&lt;!&ndash;            </VBox>&ndash;&gt;-->
+
+<!--                <Text text="Funding Contribution" GridPane.rowIndex="0" GridPane.columnIndex="3">-->
+<!--                    <font>-->
+<!--                        <Font name="System Arial Narrow" size="16"/>-->
+<!--                    </font>-->
+<!--                </Text>-->
+
+<!--                <Text text="Shivanand"   GridPane.rowIndex="1" GridPane.columnIndex="2">-->
+
+<!--                    <font>-->
+<!--                        <Font name="System Arial Narrow" size="12"/>-->
+<!--                    </font>-->
+<!--                </Text>-->
+
+
+<!--                <TextField fx:id="part1" onKeyReleased="#onkeyrel" disable="true" maxWidth="120"-->
+<!--                           GridPane.rowIndex="1"  GridPane.columnIndex="3"/>-->
+<!--                <Text text="Basavaraj"  GridPane.rowIndex="2" GridPane.columnIndex="2">-->
+<!--                    <font>-->
+<!--                        <Font name="System Arial Narrow" size="12"/>-->
+<!--                    </font>-->
+<!--                </Text>-->
+
+<!--                <TextField fx:id="part2"  onKeyReleased="#onkey2" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="3"/>-->
+<!--                <Text text="Update Funding?"/>-->
+
+
+<!--                <Text text="Customer Details" GridPane.rowIndex="0" GridPane.columnIndex="3"/>-->
+
+<!--                <TextArea maxWidth="150" maxHeight="150" fx:id="area" editable="false" disable="true"-->
+<!--                          GridPane.rowIndex="3" GridPane.columnIndex="3"/>-->
+
+
+
+
+<!--                <HBox  GridPane.rowIndex="13" GridPane.vgrow="ALWAYS" GridPane.columnIndex="4" maxWidth="350">-->
+
+<!--                    <Button text="RESET" maxWidth="80" onAction="#resetGrantLoan"-->
+<!--                            GridPane.rowIndex="12" GridPane.columnIndex="4"/>-->
+
+<!--                    <Button maxWidth="80" text="CLOSE"  fx:id="close" onAction="#closeButtonAction"-->
+<!--                            GridPane.rowIndex="12" GridPane.columnIndex="5"/>-->
+<!--                </HBox>-->
+
+<!--                </GridPane>-->
+<!--            &lt;!&ndash;           <VBox GridPane.columnIndex="2" GridPane.rowIndex="12">&ndash;&gt;-->
+<!--            &lt;!&ndash;               <Button text="VALIDATE"  fx:id="grantValidate" onAction="#grantValidation"&ndash;&gt;-->
+<!--            &lt;!&ndash;                       maxWidth="80" disable="true" GridPane.rowIndex="12" GridPane.columnIndex="2"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;               <Button text="Submit" disable="true"  onAction="#insertingranttable"&ndash;&gt;-->
+<!--            &lt;!&ndash;                       fx:id="gsubmit" maxWidth="80" GridPane.rowIndex="12" GridPane.columnIndex="3"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;               <Button text="RESET" maxWidth="80" onAction="#resetGrantLoan" GridPane.rowIndex="12" GridPane.columnIndex="4"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;               <Button maxWidth="80" text="CLOSE"  fx:id="close" onAction="#closeButtonAction"&ndash;&gt;-->
+<!--            &lt;!&ndash;                       GridPane.rowIndex="12" GridPane.columnIndex="5"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;           </VBox>&ndash;&gt;-->
+<!--        </VBox>-->
+
+
+<!--    </content>-->
+
+<!--</DialogPane>-->
