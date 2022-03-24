@@ -1,0 +1,524 @@
+package com.example.customerui;
+
+import com.example.customerui.datamodel.CustomerDetails;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class DialogController<i> {
+    @FXML
+    private Button close;
+    @FXML
+    private TextField firstnamefield;
+    @FXML
+    private TextField lastnamefield;
+    @FXML
+    private TextField cityfield;
+    @FXML
+    private TextField talukafield;
+    @FXML
+    private ComboBox<String> statefield;
+    @FXML
+    private ComboBox<String> countryfield;
+    @FXML
+    private TextField pincodefield;
+    @FXML
+    private TextField phonenumberfield;
+    @FXML
+    private ComboBox<String> countrycodefield;
+    @FXML
+    private TextField line1field;
+    @FXML
+    private TextField line2field;
+    @FXML
+    private TextField line3field;
+    @FXML
+    private TextField distfield;
+    @FXML
+    private TextField emailfield;
+    @FXML
+    private Button submit;
+    @FXML
+    private LocalDateStringConverter date;
+
+    @FXML
+    private Button validate;
+
+
+    public void uicontroller() {
+
+        //*******EMPTY
+        if (firstnamefield.getText().isEmpty()) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "First name field is empty");
+
+            return;
+        }
+
+
+        //********NUMBER OR MIX COATAINS
+        if (firstnamefield.getText().matches("[0-9]+") || (firstnamefield.getText().matches("[A-Za-z]+[0-9]+")) ||
+                (firstnamefield.getText().matches("[0-9]+[A-Za-z]+")) ||
+                firstnamefield.getText().matches("[_!@#%^&*()*-,</.>?]+[a-z]+")) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Check first name field--->Special characters and/or numerical values are not allowed");
+
+            return;
+        }
+
+        //*************
+        //EMPTY
+        if (firstnamefield.getText().matches("^[a-zA-Z]{3,}+")) {
+            if (lastnamefield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Last name field is empty");
+                //System.out.println(firstnamefield.getText());
+
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "Check first name fields, no. of charters should be greater than 2");
+
+        }
+        //MIX
+        if (lastnamefield.getText().matches("[0-9]+") || (firstnamefield.getText().matches("[A-Za-z0-9]"))) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Check first name field--->Special characters and/or numerical values are not allowed");
+
+            return;
+        }
+
+
+        if (cityfield.getText().matches("[0-9]+]") || (cityfield.getText().matches("[^A-Za-z0-9_-]*$"))) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and numbers are not allowed in City Name");
+
+            return;
+        }
+
+        if (cityfield.getText().matches("[a-zA-Z0-9]+[@()_{%$!^.?=+,;&*/|:<>}~`]") ||
+                (cityfield.getText().matches("[@()_{%$!^.?=+,;&*/|:<>}~`][a-zA-Z0-9]+")) ||
+                (cityfield.getText().matches("[a-zA-Z]+[@()_{%$!^.?=+,;&*/|:<>}~`][0-9]+")) ||
+                (cityfield.getText().matches("[0-9]+[a-zA-Z]+[@()_{%$!^.?=+,;&*/|:<>}~`]")) ||
+                cityfield.getText().matches("[@()_{%$!^.?=+,;&*/|:<>}~`]")) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and numbers are not allowed in City Name");
+            return;
+        }
+        if (cityfield.getText().matches("^[A-Za-z\\s{0,2}a-zA-Z]{3,}+")) {
+            if (talukafield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Taluka Name field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and numbers are not allowed in City Name");
+            return;
+        }
+        if (talukafield.getText().matches("^[A-Za-z\\s{0,2}a-z]{3,}+")) {
+            if (distfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "District Name field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and numbers are not allowed in Taluka Name");
+            return;
+        }
+
+        if (distfield.getText().matches("^[A-za-z\\s{0,2}a-zA-Z]{3,}+")) {
+            if (pincodefield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Pin Code field is empty");
+                return;
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Special characters and numbers are not allowed in District Name");
+            return;
+        }
+        if (pincodefield.getText().matches("^[1-9][0-9]{5}$")) {
+//            if (emailfield.getText().isEmpty()) {
+//                showAlert(Alert.AlertType.ERROR, "Error",
+//                        "Email-Id field is empty ");
+//                return;
+//            }
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Pin should contain only Numeric Values");
+            return;
+        }
+        if (emailfield.getText().matches("^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+            if (phonenumberfield.getText().isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Mobile no. field is empty");
+                return;
+
+            }
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Invalid Email-Id");
+            return;
+        }
+        if (phonenumberfield.getText().matches("^[1-9][0-9]{9}$")) {
+
+
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Mobile number should be 10 digits");
+            return;
+        }
+         submit.setDisable(false);
+        validate.setDisable(true);
+
+
+    }
+
+    public void verify() {
+        uicontroller();
+
+
+
+    }
+
+
+    public void showAlert(Alert.AlertType alertType, String title, String message) {
+        Dialog dialog = new Dialog<>();
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+
+    }
+public  String status;
+    public void storeinSQL() {
+        showAlert(Alert.AlertType.CONFIRMATION, "Registration Sucessfull",
+                "Customer Registered and Refrence Number Is--> "+ registration());
+        status="Active";
+        String i1=firstnamefield.getText();
+        StringBuilder sb1=new StringBuilder(i1);
+        sb1.setCharAt(0,Character.toUpperCase(sb1.charAt(0)));
+        i1=sb1.toString();
+        System.out.println(i1);
+        //***************//
+        String i2=lastnamefield.getText();
+        StringBuilder sb2=new StringBuilder(i2);
+        sb2.setCharAt(0,Character.toUpperCase(sb2.charAt(0)));
+        i2=sb2.toString();
+        System.out.println(i2);
+        ///*********************//
+        String i3=cityfield.getText();
+        StringBuilder sb3=new StringBuilder(i3);
+        sb3.setCharAt(0,Character.toUpperCase(sb3.charAt(0)));
+        i3=sb3.toString();
+        System.out.println(i3);
+        //**********************//
+        String i4=talukafield.getText();
+        StringBuilder sb4=new StringBuilder(i4);
+        sb4.setCharAt(0,Character.toUpperCase(sb4.charAt(0)));
+        i4=sb4.toString();
+        System.out.println(i4);
+        //***********//
+        String i5=distfield.getText();
+        StringBuilder sb5=new StringBuilder(i5);
+        sb5.setCharAt(0,Character.toUpperCase(sb5.charAt(0)));
+        i5=sb5.toString();
+        System.out.println(i5);
+
+
+            SQL sql = new SQL();
+            sql.insert(new CustomerDetails(i1, i2,
+                    line1field.getText(), line2field.getText(), line3field.getText(), i3,
+                    i4, i5, statefield.getValue(),
+                    countryfield.getValue(), pincodefield.getText(), phonenumberfield.getText(),
+                    countrycodefield.getValue(), emailfield.getText()), registration(),status);
+            //showAlert(Alert.AlertType.CONFIRMATION, "CONFIRMATION", "data entered in db file sucessfully");
+
+
+            submit.setDisable(true);
+            reset();
+
+        }
+       public  String registration() {
+           SQL sql = new SQL();
+           int count = 1;
+           ResultSet resultSet = null;
+           Statement statement = null;
+           String mql = "Select * From CUSTOMERDETAILS";
+           try (Connection connection = sql.connect()) {
+               PreparedStatement preparedStatement = connection.prepareStatement(mql);
+               resultSet = preparedStatement.executeQuery();
+               if (resultSet.next() == false) {
+                   System.out.println("ResultSet in empty in Java");
+               } else {
+                   do {
+                       String data = resultSet.getString(1);
+                       count++;
+                   }
+                   while (resultSet.next());
+               }
+
+           } catch (SQLException e) {
+               System.out.println(e.getMessage());
+           }
+           return String.valueOf(count);
+       }
+
+       public int autoincrement() {
+       int i=0;
+       i++;
+       return  i;
+   }
+   public boolean disable(){
+        submit.setDisable(false);
+        return true;
+    }
+    public boolean disable1(){
+        validate.setDisable(false);
+        return true;
+    }
+    public void reset(){
+        firstnamefield.clear();
+        lastnamefield.clear();
+        line1field.clear();
+        line2field.clear();
+        line3field.clear();
+        talukafield.clear();
+        cityfield.clear();
+        distfield.clear();
+        pincodefield.clear();
+        phonenumberfield.clear();
+        emailfield.clear();
+        submit.setDisable(true);
+        validate.setDisable(false);
+    }
+    @FXML
+    public  void closeButtonAction() {
+        Stage stage = (Stage) close.getScene().getWindow();
+        stage.close();
+    }
+    public void firstKeyRelease() {
+        firstnamefield.addEventFilter(KeyEvent.KEY_TYPED, evt -> {
+            if (" ".equals(evt.getCharacter())) {
+                System.out.println("spaced typed");
+                evt.consume();
+            }
+        });
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+            private boolean willconsume = false;
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (willconsume) {
+                    keyEvent.consume();
+                }
+                if (keyEvent.getCode().isKeypadKey()) {
+                    if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                        willconsume = true;
+                    } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                        willconsume = false;
+                        int length = firstnamefield.getText().length();
+                        if (keyEvent.getCode().isDigitKey()) {
+                            if (firstnamefield.getText().matches("[0-9]+")) {
+                                firstnamefield.clear();
+                                keyEvent.consume();
+                            } else if (length > 0) {
+                                String name = firstnamefield.getText();
+                                StringBuffer stringBuffer = new StringBuffer(name);
+                                stringBuffer.deleteCharAt(name.length() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        firstnamefield.addEventFilter(KeyEvent.ANY, handler);
+
+
+        return;
+    }
+    public void lastNameHandle(){
+        lastnamefield.addEventFilter(KeyEvent.KEY_TYPED, evt -> {
+                if (" ".equals(evt.getCharacter())) {
+                    System.out.println("spaced typed");
+                    evt.consume();
+                }
+            });
+            EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+                private boolean willconsume = false;
+
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (willconsume) {
+                        keyEvent.consume();
+                    }
+                    if (keyEvent.getCode().isKeypadKey()) {
+                        if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                            willconsume = true;
+                        } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                            willconsume = false;
+                            int length = lastnamefield.getText().length();
+
+                            if (keyEvent.getCode().isDigitKey()) {
+                                if (lastnamefield.getText().matches("[0-9]+")) {
+                                    lastnamefield.clear();
+                                    keyEvent.consume();
+
+                                } else if (length > 0) {
+                                    String name = lastnamefield.getText();
+                                    StringBuffer stringBuffer = new StringBuffer(name);
+                                    stringBuffer.deleteCharAt(name.length() - 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            lastnamefield.addEventFilter(KeyEvent.ANY, handler);
+
+            return;
+    }
+    public void cityHandle(){
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+                private boolean willconsume = false;
+
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (willconsume) {
+                        keyEvent.consume();
+                    }
+                    if (keyEvent.getCode().isKeypadKey()) {
+                        if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                            willconsume = true;
+                        } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                            willconsume = false;
+                            int length = cityfield.getText().length();
+                            if (keyEvent.getCode().isDigitKey()) {
+                                if (cityfield.getText().matches("[0-9]+")) {
+                                    cityfield.clear();
+                                    keyEvent.consume();
+                                } else if (length > 0) {
+                                    String name = cityfield.getText();
+                                    StringBuffer stringBuffer = new StringBuffer(name);
+                                    stringBuffer.deleteCharAt(name.length() - 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            cityfield.addEventFilter(KeyEvent.ANY, handler);
+            return;
+    }
+
+      public void talukaHandle() {
+        EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+              private boolean willconsume = false;
+
+              @Override
+              public void handle(KeyEvent keyEvent) {
+                  if (willconsume) {
+                      keyEvent.consume();
+                  }
+                  if (keyEvent.getCode().isKeypadKey()) {
+                      if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                          willconsume = true;
+                      } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                          willconsume = false;
+                          int length = talukafield.getText().length();
+
+                          if (keyEvent.getCode().isDigitKey()) {
+                              if (talukafield.getText().matches("[0-9]+")) {
+                                  talukafield.clear();
+                                  keyEvent.consume();
+//
+                              } else if (length > 0) {
+                                  String name = talukafield.getText();
+                                  StringBuffer stringBuffer = new StringBuffer(name);
+                                  stringBuffer.deleteCharAt(name.length() - 1);
+                              }
+                          }
+                      }
+                  }
+              }
+          };
+          talukafield.addEventFilter(KeyEvent.ANY, handler);
+          return;
+      }
+     public  void distHandleField(){
+            EventHandler<KeyEvent> handler = new EventHandler<KeyEvent>() {
+                private boolean willconsume = false;
+
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (willconsume) {
+                        keyEvent.consume();
+                    }
+                    if (keyEvent.getCode().isKeypadKey()) {
+                        if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
+                            willconsume = true;
+                        } else if (keyEvent.getEventType() == KeyEvent.KEY_RELEASED) {
+                            willconsume = false;
+                            int length = distfield.getText().length();
+
+                            if (keyEvent.getCode().isDigitKey()) {
+                                if (distfield.getText().matches("[0-9]+")) {
+                                    distfield.clear();
+                                    keyEvent.consume();
+//
+                                } else if (length > 0) {
+                                    String name = distfield.getText();
+                                    StringBuffer stringBuffer = new StringBuffer(name);
+                                    stringBuffer.deleteCharAt(name.length() - 1);
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            distfield.addEventFilter(KeyEvent.ANY, handler);
+            return;
+
+        }
+        public void handleKeyRelease3(){
+        EventType<KeyEvent>keyEventEventType;
+        Scanner keyboard=new Scanner(System.in);
+        String name=pincodefield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+                pincodefield.clear();
+                break;
+            }
+        }
+    }
+    public void handleKeyRelease4(){
+        EventType<KeyEvent>keyEventEventType;
+        Scanner keyboard=new Scanner(System.in);
+        String name=phonenumberfield.getText();
+        for(char c:name.toCharArray()) {
+            if (Character.isAlphabetic(c)) {
+               phonenumberfield.clear();
+                break;
+            }
+        }
+    }
+
+
+}
+
+
+
+
+
+
