@@ -1,0 +1,18 @@
+
+//Main method
+
+public class HelloApplication extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("admin.fxml"));
+        GridPane gridPane=new GridPane();
+        Scene scene = new Scene(fxmlLoader.load(), 600, 370);
+        stage.setTitle("Admin");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+    public static void main(String args) {
+            launch(args);
+        }
+    }
