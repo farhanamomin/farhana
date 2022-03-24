@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"
+            maxWidth="600" maxHeight="600" style="-fx-background-color:fef6c7">
+    <headerText>
+
+    </headerText>
+    <content >
+        <VBox style="-fx-background-color:fef6c7"  maxWidth="300" alignment="CENTER">
+            <GridPane hgap="10" vgap="10" BorderPane.alignment="TOP_CENTER" alignment="CENTER" >
+                <Label text="Customer Id*" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                <TextField fx:id="editoption"  onKeyTyped="#editCustomerhandle" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                <Button text="FETCH" style="-fx-background-color:darkseagreen"
+                        fx:id="fetch1" GridPane.rowIndex="0" GridPane.columnIndex="2"
+                        onAction="#editCustomerInfo"/>
+
+                <Label text="First Name*" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="firstnamefield" disable="true" onKeyTyped="#firstKeyRelease"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Button text="SEARCH" fx:id="search"
+                        GridPane.rowIndex="0" GridPane.columnIndex="3"   style="-fx-background-color:#d5f4e6"
+                        onAction="#showsearch"/>
+
+                <Label text="Last Name*" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="lastnamefield" disable="true" maxWidth="170" onKeyTyped="#lastNameHandle"
+                           GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                <Label text="Address" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                <Label text="House No" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="line1field"  disable="true" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <Label text="Steet" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField  fx:id="line2field"  GridPane.rowIndex="4" disable="true" GridPane.columnIndex="1"/>
+                <Label text="Near Station" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="line3field" GridPane.rowIndex="5" disable="true" GridPane.columnIndex="1"/>
+
+                <Label text="City*" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                <TextField fx:id="cityfield" maxWidth="170"  disable="true" onKeyTyped="#cityHandle"
+                           GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+                <Label text="Taluka*" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                <TextField fx:id="talukafield" maxWidth="170"  disable="true" onKeyTyped="#talukaHandle"
+                           GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+                <Label text="District*" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+                <TextField fx:id="distfield" maxWidth="170"  disable="true" onKeyTyped="#distHandleField"
+                           GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+                <Label text="State*" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+
+                <Label text="Country*" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+
+
+                <Label text="Pincode*" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="pincodefield"  promptText="only 6 digits are allowed" disable="true"
+                           onKeyTyped="#handleKeyRelease3"
+                           GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                <Label text="Email Id" GridPane.rowIndex="7" GridPane.columnIndex="2"/>
+                <TextField fx:id="emailfield"  maxWidth="170" promptText="Ex:maria12@gamil.com" disable="true"
+                           GridPane.rowIndex="7" GridPane.columnIndex="3"/>
+
+                <Label text="Mobile No.*" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+
+                <TextField fx:id="phonenumberfield"  maxWidth="170" promptText="only 10 digits are allowed"
+                           disable="true" onKeyTyped="#handleKeyRelease4"
+                           GridPane.rowIndex="8" GridPane.columnIndex="3"/>
+
+
+                <HBox GridPane.rowIndex="10"   GridPane.columnIndex="3"  >
+                    <Button fx:id="validate" GridPane.rowIndex="18" maxWidth="100" GridPane.columnIndex="0" text="VERIFY"
+                            onAction="#editVerifyButton" style="-fx-background-color:#d5f4e6" disable="true">
+                        <font>
+                            <Font name=" Black" />
+                        </font>
+                    </Button>
+                    <Button fx:id="submit" text="SUBMIT"  disable="true" maxWidth="100" GridPane.columnIndex="2"
+                            style="-fx-background-color:#d5f4e6"
+                            GridPane.rowIndex="18" onAction="#editInfoSubmit"/>
+                    <Button fx:id="reset" GridPane.rowIndex="9" maxWidth="100" GridPane.columnIndex="3"
+                            style="-fx-background-color:#d5f4e6"
+                            text="RESET" onAction="#resetEdit"/>
+
+                    <Button fx:id="close" text="CLOSE" GridPane.rowIndex="18" maxWidth="100" GridPane.columnIndex="3"
+                            style="-fx-background-color:#d5f4e6"
+                            onAction="#closeButtonAction"/>
+
+
+                </HBox>
+                <ComboBox  fx:id="statefield" GridPane.rowIndex="6" GridPane.columnIndex="1" disable="true">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Andhra Pradesh"/>
+                            <String fx:value="Arunachal Pradesh"/>
+                            <String fx:value="Assam"/>
+                            <String fx:value="Bihar"/>
+                            <String fx:value="Chhattisgarh"/>
+                            <String fx:value="Goa"/>
+                            <String fx:value="Gujarat"/>
+                            <String fx:value="Haryana"/>
+                            <String fx:value="Himachal Pradesh"/>
+                            <String fx:value="Jammu and Kashmir"/>
+                            <String fx:value="Jharkhand"/>
+                            <String fx:value="Karnataka" />
+                            <String fx:value="Kerala"/>
+                            <String fx:value="Madhya Pradesh"/>
+                            <String fx:value="Maharashtra"/>
+                            <String fx:value="Manipur"/>
+                            <String fx:value="Meghalaya"/>
+                            <String fx:value="Mizoram"/>
+                            <String fx:value="Nagaland"/>
+                            <String fx:value="Orissa"/>
+                            <String fx:value="Punjab"/>
+                            <String fx:value="Rajasthan"/>
+                            <String fx:value="Sikkim"/>
+                            <String fx:value="Tamil Nadu"/>
+                            <String fx:value="Telangana"/>
+                            <String fx:value="Tripura"/>
+                            <String fx:value="Uttar Pradesh"/>
+                            <String fx:value="Uttarakhand"/>
+                            <String fx:value="West Bengal"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="Karnataka"/>
+                    </value>
+                </ComboBox>
+                <ComboBox fx:id="countryfield" GridPane.rowIndex="6" maxWidth="170" GridPane.columnIndex="3"  disable="true" >
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Afghanistan"/>
+                            <String fx:value="Albania"/>
+                            <String fx:value="Algeria"/>
+                            <String fx:value="Algeria "/>
+                            <String fx:value="Andorra"/>
+                            <String fx:value="Angola"/>
+                            <String fx:value="Antigua and Barbuda"/>
+                            <String fx:value="Argentina"/>
+                            <String fx:value="Armenia"/>
+                            <String fx:value="Australia"/>
+                            <String fx:value="Austria"/>
+                            <String fx:value="Azerbaijan"/>
+
+                            <String fx:value="Bahamas"/>
+                            <String fx:value="Bahrain"/>
+                            <String fx:value="Bangladesh"/>
+                            <String fx:value="Barbados "/>
+                            <String fx:value="Belarus"/>
+                            <String fx:value="Belgium"/>
+                            <String fx:value="Belize"/>
+                            <String fx:value="Benin"/>
+                            <String fx:value="Bhutan"/>
+                            <String fx:value="Bolivia"/>
+                            <String fx:value="Bosnia and Herzegovina"/>
+                            <String fx:value="Botswana"/>
+                            <String fx:value="Brazil"/>
+                            <String fx:value="Brunei"/>
+                            <String fx:value="Bulgaria"/>
+                            <String fx:value="Burkina Faso"/>
+                            <String fx:value="Burundi "/>
+                            <String fx:value="Iceland"/>
+                            <String fx:value="India"/>
+                            <String fx:value="Indonesia"/>
+                            <String fx:value="Iran"/>
+                            <String fx:value="Iraq"/>
+                            <String fx:value="Ireland"/>
+                            <String fx:value="Israel"/>
+                            <String fx:value="Italy"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value=" India"/>
+                    </value>
+                </ComboBox>
+                <Text text="Country Code" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <ComboBox  fx:id="countrycodefield"   disable="true"
+                           GridPane.rowIndex="8" GridPane.columnIndex="1">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="+93 Afghanistan"/>
+                            <String fx:value="+355 Albania"/>
+                            <String fx:value="+213 Algeria"/>
+                            <String fx:value="+213 Algeria"/>
+                            <String fx:value="+244 Angola"/>
+                            <String fx:value="+54 Argentina"/>
+                            <String fx:value="+375 Armenia"/>
+                            <String fx:value="+297 Aruba"/>
+                            <String fx:value="+61 Australia"/>
+                            <String fx:value="63 Austria"/>
+                            <String fx:value="994 Azerbaijan"/>
+                            <String fx:value="+242 Bahamas"/>
+                            <String fx:value="+973 Bahrain"/>
+                            <String fx:value="+32 Belgium"/>
+                            <String fx:value="+375 Belarus"/>
+                            <String fx:value="+501 Belize"/>
+                            <String fx:value="+229 Benin"/>
+                            <String fx:value="+441 Bermuda"/>
+                            <String fx:value="+975 Bhutan"/>
+                            <String fx:value="+55 Brazil"/>
+                            <String fx:value="+1 canada"/>
+                            <String fx:value="+57 Colombia	"/>
+                            <String fx:value="+45 Denmark	"/>
+                            <String fx:value="+20 Egypt"/>
+                            <String fx:value="+49 Germany"/>
+                            <String fx:value="+852 Hong Kong"/>
+                            <String fx:value="+91 India "/>
+                            <String fx:value="+26 Indonesia"/>
+                            <String fx:value="+98 Iran"/>
+                            <String fx:value="+36 Hungary"/>
+                            <String fx:value="+354 Iceland"/>
+                            <String fx:value="+964 Iraq"/>
+                            <String fx:value="+353 Ireland"/>
+                            <String fx:value="+972 Israel"/>
+                        </FXCollections>
+                    </items>
+                    <value>
+                        <String fx:value="+91 India"/>
+                    </value>
+                </ComboBox>
+            </GridPane>
+
+
+        </VBox>
+
+
+    </content>
+
+
+
+
+</DialogPane>
