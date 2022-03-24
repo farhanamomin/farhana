@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.*?>
+<?import javafx.scene.text.Font?>
+<DialogPane  xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.customerui.SQL"  maxHeight="600"  maxWidth="700"
+             style="-fx-background-color:fef6c7">
+
+<content>
+
+    <VBox style="-fx-background-color:fef6c7">
+        <GridPane>
+            <VBox GridPane.columnIndex="0">
+                <Label text="Customer Id* " GridPane.rowIndex="1" GridPane.columnIndex="0">
+           <font>
+               <Font name="System Arial Narrow" size="16"/>
+           </font>
+       </Label>
+       <TextField fx:id="editoption1" GridPane.rowIndex="2" GridPane.columnIndex="0"  onKeyTyped="#customerid"/>
+       <Button text="FETCH" fx:id="fetch" style="-fx-background-color:darkseagreen"
+               onAction="#grantLoanFetch" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+       <Label text="Loan Amount*" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+       <TextField fx:id="loanamountfield"  disable="true" maxWidth="100" onKeyTyped="#loanAmountHandle"
+                  onKeyReleased="#loanAmountDivide" GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+       <Label text="Collateral Value*" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+       <TextField fx:id="collerralVfield" onKeyTyped="#colletralHandle" disable="true" maxWidth="100" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+       <Label text="Rate(%)/Month*"   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+       <TextField fx:id="ratefield"  onKeyTyped="#rateHandle" disable="true" maxWidth="100" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+       <Label text="Items*" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+       <ComboBox fx:id="item" disable="true" onAction="#discrip" maxWidth="150" GridPane.rowIndex="7" GridPane.columnIndex="0">
+           <items>
+               <FXCollections fx:factory="observableArrayList">
+                   <String fx:value="Necklace"/>
+                   <String fx:value="Bangles"/>
+                   <String fx:value="Rings"/>
+                   <String fx:value="Earing"/>
+                   <String fx:value="Other" />
+               </FXCollections>
+           </items>
+       </ComboBox>
+
+       <Label text="Description"  GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+       <TextArea fx:id="descriptionfield"  onKeyTyped="#discriptHandleField2" disable="true" maxWidth="70" maxHeight="30"
+                 GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+       <Label text="Date of Loan*" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+       <DatePicker fx:id="dateofloans" disable="true" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+
+   </VBox>
+<VBox GridPane.columnIndex="5" maxWidth="150" >
+    <Text text="Funding Contribution" GridPane.rowIndex="0" GridPane.columnIndex="3">
+        <font>
+            <Font name="System Arial Narrow" size="16"/>
+        </font>
+    </Text>
+
+    <Text text="Shivanand M"   GridPane.rowIndex="1" GridPane.columnIndex="2">
+
+        <font>
+            <Font name="System Arial Narrow" size="12"/>
+        </font>
+    </Text>
+
+
+    <TextField fx:id="part1" onKeyReleased="#onKeyRel1" disable="true" GridPane.rowIndex="1"  GridPane.columnIndex="3"/>
+    <Text text="Basavaraj M"  GridPane.rowIndex="2" GridPane.columnIndex="2">
+        <font>
+            <Font name="System Arial Narrow" size="12"/>
+        </font>
+    </Text>
+
+    <TextField fx:id="part2"  onKeyReleased="#onKeyRel2" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+    <Text text="Update Funding?"/>
+
+    <RadioButton text="YES" fx:id="radio"   disable="true" onAction="#radioButtonEditLoans" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+    <Text text="Customer Details" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+    <TextArea maxWidth="150" maxHeight="150" fx:id="area" editable="false" disable="true"
+          GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+        </VBox>
+
+    <HBox GridPane.rowIndex="12" GridPane.columnIndex="4">
+                    <Button text="VALIDATE"  fx:id="grantValidate" onAction="#grantValidation"
+                            style="-fx-background-color:#d5f4e6"
+                            disable="true" GridPane.rowIndex="12" GridPane.columnIndex="2"/>
+                <Button text="SUBMIT" disable="true"  onAction="#insertingranttable"
+                        style="-fx-background-color:#d5f4e6"
+                        fx:id="gsubmit" GridPane.rowIndex="12" GridPane.columnIndex="3"/>
+                    <Button text="RESET" onAction="#resetGrantLoan" style="-fx-background-color:#d5f4e6"
+                            GridPane.rowIndex="12" GridPane.columnIndex="4"/>
+                <Button text="CLOSE"  fx:id="close" onAction="#closeButtonAction" style="-fx-background-color:#d5f4e6"
+                        GridPane.rowIndex="12" GridPane.columnIndex="5"/>
+    </HBox>
+
+        </GridPane>
+    </VBox>
+</content>
+
+
+</DialogPane>
