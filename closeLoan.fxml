@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.*?>
+<DialogPane    xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.customerui.SQL" style="-fx-background-color:fef6c7"
+          prefWidth="600" maxHeight="600">
+
+<content>
+    <VBox style="-fx-background-color:fef6c7">
+        <GridPane>
+
+
+    <VBox GridPane.columnIndex="2"  >
+        <Label text="Customer Details"   GridPane.columnIndex="2"/>
+        <TextArea maxWidth="250" maxHeight="150"  fx:id="customerclosearea"
+                  disable="true" layoutX="150" editable="false" GridPane.columnIndex="4"
+        style="-fx-background-color:grey"/>
+    </VBox>
+
+<VBox GridPane.columnIndex="1" >
+
+</VBox>
+    <VBox GridPane.columnIndex="0" >
+    <Label text="Loan No*" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField  fx:id="closefield" onKeyTyped="#closeLoanHandel" maxWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Button text="FETCH" fx:id="fetchclosed" GridPane.rowIndex="2" layoutY="10"
+            style="-fx-background-color:darkseagreen" onAction="#closeLoanFetch"/>
+
+             <Label text="Loan Amount"  GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField maxWidth="120 " disable="true" fx:id="loanAmfield" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+            <Label text="Rate"  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+            <TextField maxWidth="120" disable="true" fx:id="ratefield1" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+
+            <Label text="Start Date" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <TextField fx:id="startd" maxWidth="120" disable="true" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Label text="End Date"  GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+            <DatePicker fx:id="endd"  disable="true" maxWidth="120" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+            <Text fx:id="total" GridPane.rowIndex="5" GridPane.columnIndex="2" >
+                <font>
+                    <Font name="System Bold"/>
+                </font>
+            </Text>
+                    <Label text="Total Interst" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <TextField fx:id="result" maxWidth="120" editable="false"
+                       promptText="INTERST" GridPane.rowIndex="7" GridPane.columnIndex="0">
+                <font>
+                    <Font name="System Bold"/>
+                </font>
+            </TextField>
+        <Text text="Adavance Payment" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+         <TextField fx:id="totaladvance" editable="false" maxWidth="120" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+        <Text text="Final Amount" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+        <TextField fx:id="finalamount" editable="false" maxWidth="120" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+
+             <TextArea maxHeight="100" editable="false" fx:id="closearea" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+             <Text GridPane.rowIndex="7" GridPane.columnIndex="1">
+               <font>
+                  <Font name="System Bold"/>
+                </font>
+                 </Text>
+</VBox>
+
+    <HBox GridPane.rowIndex="8" >
+        <Button text="CALCULATE" prefWidth="100" GridPane.rowIndex="8" fx:id="calcutebutton" disable="true"
+                GridPane.columnIndex="1" style="-fx-background-color:#d5f4e6" onAction="#interstCalcualtions"/>
+        <Button text="SUBMIT"   disable="true" prefWidth="70" GridPane.rowIndex="8" GridPane.columnIndex="2"
+                onAction="#closeGrantSubmit" fx:id="closesubmit" style="-fx-background-color:#d5f4e6"/>
+        <Button text="RESET" style="-fx-background-color:#d5f4e6" onAction="#resetGrantClose" fx:id="resetclosed" GridPane.rowIndex="8" prefWidth="70" GridPane.columnIndex="3"/>
+        <Button text="CLOSE" prefWidth="70"  fx:id="close" GridPane.rowIndex="8" style="-fx-background-color:#d5f4e6"
+                GridPane.columnIndex="2" onAction="#closeButtonAction"/>
+    </HBox>
+
+        </GridPane>
+    </VBox>
+
+</content>
+
+</DialogPane>
