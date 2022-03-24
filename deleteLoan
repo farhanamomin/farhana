@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.example.customerui.SQL"
+          prefHeight="500.0" prefWidth="500.0" style="-fx-background-color:fef6c7">
+    <VBox GridPane.columnIndex="2" style="-fx-background-color:fef6c7">
+    <Label text="Customer Details"   GridPane.columnIndex="2"/>
+    <TextArea fx:id="customerareadelete" maxWidth="250" maxHeight="150"
+              disable="true" layoutX="150" editable="false" GridPane.columnIndex="4"
+              />
+    </VBox>
+
+     <VBox GridPane.columnIndex="1" >
+
+     </VBox>
+    <VBox GridPane.columnIndex="0" style="-fx-background-color:fef6c7">
+  <Label text="Loan No*" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+   <TextField  fx:id="closefielddelete"  maxWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+    <Button text="FETCH" fx:id="fetchclosed" GridPane.rowIndex="2" layoutY="10"  onAction="#fetchDeleteButton"/>
+
+    <Label text="Loan Amount"  GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField maxWidth="120 " disable="true" fx:id="loandeletefield" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+
+   <Label text="Rate(%)/Month"  GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+    <TextField maxWidth="120" disable="true" fx:id="ratefielddelete" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+
+    <Label text="Start Date" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <TextField fx:id="startdelete" maxWidth="120" disable="true" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+
+
+
+
+
+</VBox>
+
+<HBox GridPane.rowIndex="8" style="-fx-background-color:fef6c7">
+
+<Button text="DELETE"   onAction="#deleteInactiveaLoan"
+        prefWidth="70" GridPane.rowIndex="8" GridPane.columnIndex="2"  />
+
+<Button text="CLOSE" prefWidth="70"  fx:id="close" GridPane.rowIndex="8"
+        GridPane.columnIndex="2" onAction="#closeButtonAction"/>
+</HBox>
+</GridPane>
