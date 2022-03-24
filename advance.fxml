@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"
+           prefWidth="450" prefHeight="350"  style="-fx-background-color:fef6c7">
+    <content>
+        <VBox  style="-fx-background-color:fef6c7" >
+            <GridPane hgap="10" vgap="10" alignment="CENTER">
+                <Text text="Loan number"  GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="advanceloan" onKeyTyped="#advanceHandel" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Text text="Date of Payment" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <DatePicker fx:id="advancedate" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                <Text text="Payment" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="payment" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            </GridPane>
+            <HBox GridPane.rowIndex="4" GridPane.columnIndex="3">
+                <Button fx:id="verifypayment"  text="VERIFY" onAction="#advance"   style="-fx-background-color:#d5f4e6"/>
+                <Button fx:id="advancesubmit"  disable="true" text="SUBMIT" onAction="#paymentSubmit"
+                        GridPane.rowIndex="3" GridPane.columnIndex="2" style="-fx-background-color:#d5f4e6"/>
+                <Button  text="RESET"  onAction="#paymentReset" fx:id="resetpayment" style="-fx-background-color:#d5f4e6"/>
+                <Button fx:id="close" text="CLOSE"  style="-fx-background-color:#d5f4e6"
+                        onAction="#closeButtonAction" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+            </HBox>
+        </VBox>
+    </content>
+
+</DialogPane>
