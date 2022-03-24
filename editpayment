@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"
+            prefHeight="400.0" prefWidth="400.0" style="-fx-background-color:fef6c7">
+    <content>
+        <VBox style="-fx-background-color:fef6c7" >
+            <GridPane hgap="10" vgap="10" alignment="CENTER">
+                <Label text="Payment Number " GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="loanpayment" onKeyTyped="#advanceEditHandel" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <Button text="FETCH" fx:id="fetchpayment" onAction="#editpaymentdelete" style="-fx-background-color:darkseagreen"
+                        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                <Label text="Advance Payment"  GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="editpayment" disable="true" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <Label text="Date of Payment" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                <DatePicker GridPane.rowIndex="4" disable="true" fx:id="editdate" GridPane.columnIndex="1"/>
+                <CheckBox  disable="true" onAction="#editcheck" fx:id="checkedit" text="Do you want to edit?" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <CheckBox  disable="true" onAction="#editcheck" text="Do you want to delete?"  fx:id="checkdelete" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+<!--            <HBox GridPane.rowIndex="4">-->
+
+<!--            </HBox>-->
+            <HBox GridPane.rowIndex="5"  GridPane.columnIndex="1" >
+                <Button text="SUBMIT"  disable="true" fx:id="paymentsubmit" onAction="#paysubmit"
+                        GridPane.rowIndex="5" GridPane.columnIndex="2" style="-fx-background-color:#d5f4e6"/>
+                <Button text="CLOSE" fx:id="close"  GridPane.rowIndex="5" style="-fx-background-color:#d5f4e6"
+                        GridPane.columnIndex="2" onAction="#closeButtonAction"/>
+
+            </HBox>
+            </GridPane>
+        </VBox>
+    </content>
+
+</DialogPane>
