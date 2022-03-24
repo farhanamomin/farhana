@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import com.sun.javafx.scene.control.ContextMenuContent.ArrowMenuItem?>
+<?import com.sun.javafx.scene.control.ContextMenuContent.MenuBox?>
+<BorderPane  fx:id="mainBorderPane"
+            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="370.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8.0.65" style="-fx-background-color:fef6c7"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.customerui.Contro" >
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <Menu text="_Customer Master"  style="-fx-border-color:grey;-fx-background-color:#9ec2e6;-fx-font-color:white"
+            accelerator ="Alt+C" mnemonicParsing="true" >
+                <MenuItem text="New "    onAction="#showNewCustomerRegistration" accelerator="Alt+N"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Edit"    onAction="#showeditdialog" accelerator="Alt+E"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Inquiry" onAction="#showCustomerInquiry" accelerator="Alt+I"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Delete"  onAction="#showcustomerdelete" accelerator="Alt+D"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Search"  onAction="#showsearch" accelerator="Alt+S"/>
+            </Menu>
+            <Menu text="_Transactions"  mnemonicParsing="true" style="-fx-border-color:grey;-fx-background-color:#9ec2e6">
+                <MenuItem text="Grant Loan" onAction="#showGrantLoandialog" accelerator="Ctrl+G"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Close Loan" onAction="#showLoanCloseDialog" accelerator="Ctrl+C"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Edit Loan" onAction="#showeditloandialog" accelerator="Ctrl+E"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="Inquiry Loan" onAction="#showInquiryLoanDialog" accelerator="Ctrl+I"/>
+                <SeparatorMenuItem/>
+                <Menu text="Advance Payment" >
+                 <MenuItem text="Advance Payment" onAction="#showadvancepayment"/>
+<!--                <MenuItem text="Advance Payment" onAction="#showadvancepayment"/>-->
+                <MenuItem text="Edit/Delete Payment" onAction="#editpayment"/>
+                <MenuItem  text="Payment Inquiry" onAction="#paymentinquiry"/>
+                </Menu>
+
+                <SeparatorMenuItem/>
+                <MenuItem text="Interst Calculation" onAction="#showInstertcaldialog" accelerator="Ctrl+M"/>
+                <SeparatorMenuItem/>
+
+            </Menu>
+            <Menu text="_Reports"  mnemonicParsing="true" style="-fx-border-color:grey;-fx-background-color:#9ec2e6">
+                <MenuItem text="Customer and Loan" onAction="#table" accelerator="Ctrl+R"/>
+            </Menu>
+
+            <Menu text="_Help"  style="-fx-border-color:grey;-fx-background-color:#9ec2e6" mnemonicParsing="true">
+                <MenuItem text="Help" onAction="#handleHelp"/>
+            </Menu>
+            <Menu text="_Exit"   style="-fx-border-color:grey;-fx-background-color:#9ec2e6" mnemonicParsing="true">
+                <MenuItem text="Exit" onAction="#handleExit"/>
+            </Menu>
+        </MenuBar>
+    </top>
+</BorderPane>
