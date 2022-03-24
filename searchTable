@@ -1,0 +1,63 @@
+package com.example.customerui;
+
+public class searchtable {
+    String REGNO,FirstName,LastName,Address,phonenumber,status;
+
+    public searchtable(String REGNO, String firstName, String lastName, String address, String phonenumber,String status) {
+        this.REGNO = REGNO;
+        FirstName = firstName;
+        LastName = lastName;
+        Address = address;
+        this.phonenumber = phonenumber;
+        this.status=status;
+
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getREGNO() {
+        return REGNO;
+    }
+
+    public void setREGNO(String REGNO) {
+        this.REGNO = REGNO;
+    }
+
+    public String getFirstName() {
+        return FirstName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
+    }
+}
