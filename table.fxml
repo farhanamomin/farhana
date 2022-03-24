@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import java.lang.String?>
+<?import javafx.scene.text.Font?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.Tableview"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:fef6c7">
+    <content>
+
+
+    <GridPane vgap="10" hgap="5" >
+        <HBox GridPane.rowIndex="0"  >
+            <Text text="Accounts Status" fx:id="st" translateX="-3" translateY="5" style="-fx-alignment:bottom-left"
+                  GridPane.rowIndex="0"
+                  GridPane.columnIndex="0">
+                <font>
+                    <Font name="arial bold"/>
+
+                </font>
+            </Text>
+
+
+            <ComboBox fx:id="sts" onAction="#select1" translateX="3" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Closed" />
+                        <String fx:value="Not Closed"/>
+                        <String fx:value="All"/>
+                        <String fx:value="Inactive"/>
+
+                    </FXCollections>
+                </items>
+                <value>
+                    <String fx:value="Not Closed"/>
+                </value>
+            </ComboBox>
+            <Button text="CLOSE" fx:id="close" style="-fx-background-color:#d5f4e6" translateX="8" onAction="#closeButtonAction"
+                    GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <Button text="DOWNLOAD" translateX="12" style="-fx-background-color:#d5f4e6" onAction="#xcel"/>
+        </HBox>
+        <HBox GridPane.rowIndex="2" alignment="CENTER_RIGHT">
+        <TableView fx:id="tables"  style="-fx-alignment:center-right">
+        <columns  >
+            <TableColumn fx:id="REGNO" text="RegNo" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="FirstName" text="FirstName" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="LastName" text="LastName" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="phonenumber" text="PhoneNumber" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="LoanNumber" text="LoanNumber" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="LoanAmount" text="LoanAmount" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="partner1" text="Shivanand M" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="partner2" text="Basavaraj M" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="Rate" text="Rate(%)/Month" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="startDate" text="StartDate" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="endDate" text="EndDate" style="-fx-alignment:center-right"/>
+            <TableColumn fx:id="closed" text="Closed" style="-fx-alignment:center-right"/>
+
+        </columns>
+    </TableView>
+    </HBox>
+        <HBox GridPane.rowIndex="3" >
+            <Text text="Total Amount" fx:id="tm" translateY="5" translateX="-4">
+                <font>
+                    <Font name="arial bold"/>
+                </font>
+            </Text>
+
+            <TextField fx:id="ta" editable="fasle" style="-fx-alignment:center-right" translateX="0" maxWidth="100"/>
+            <Text text="Shivanand M" fx:id="part1"  translateX="3" translateY="5" >
+                <font>
+                    <Font name="arial bold"/>
+                </font>
+            </Text>
+            <TextField fx:id="pa1" editable="fasle" translateX="5" maxWidth="100" style="-fx-alignment:center-right"/>
+            <Text text="Basavaraj M" fx:id="part2" translateX="6" translateY="5 ">
+                <font>
+                    <Font name="arial bold"/>
+                </font>
+            </Text>
+            <TextField fx:id="pa2" editable="false" maxWidth="100" translateX="8" style="-fx-alignment:center-right"/>
+        </HBox>
+
+
+    </GridPane>
+    </content>
+
+</DialogPane>
