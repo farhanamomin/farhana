@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.skin.SplitPaneSkin.Content?>
+<?import javafx.scene.text.Text?>
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.customerui.SQL"
+            prefHeight="400.0" prefWidth="600.0" style="-fx-background-color:fef6c7">
+    <content>
+        <VBox style="-fx-background-color:fef6c7">
+
+                <Text text="Loan Number" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="loan2" onKeyTyped="#advanceEnquiryHandel" maxWidth="120" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                <Button fx:id="fetchpayment"  style="-fx-background-color:darkseagreen" onAction="#paymentInquiry"
+                        text="FETCH" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+<!--                <Text text="Payment number" GridPane.rowIndex="1" GridPane.columnIndex="0"/>-->
+<!--                <TextField fx:id="paymentnumber"  disable="true" GridPane.rowIndex="1" GridPane.columnIndex="1"/>-->
+                <Text text="Number of Payment" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField maxWidth="120" fx:id="times" disable="true" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                <Text text="Total Payment" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField maxWidth="120" fx:id="totalp" disable="true" GridPane.rowIndex="2"  GridPane.columnIndex="1"/>
+                <Text text="Results" GridPane.rowIndex="3"/>
+                <TextArea  editable="false" maxWidth="250" fx:id="paymentresult" GridPane.rowIndex="4"/>
+
+<!--                <Text text="Loan Amount" GridPane.rowIndex="2" GridPane.columnIndex="2"/>-->
+<!--                <TextField fx:id="loanamountpayment" disable="true" GridPane.rowIndex="2" GridPane.columnIndex="3"/>-->
+                <HBox GridPane.rowIndex="3" GridPane.columnIndex="3">
+                    <Button text="RESET" fx:id="ipreset" onAction="#paymentResetInquiry" style="-fx-background-color:#d5f4e6"
+                            GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Button text="CLOSE" fx:id="close"  onAction="#closeButtonAction"
+                            style="-fx-background-color:#d5f4e6" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                </HBox>
+
+        </VBox>
+    </content>
+
+</DialogPane>
